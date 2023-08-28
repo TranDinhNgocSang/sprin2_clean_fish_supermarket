@@ -42,8 +42,14 @@ body {
 	height: 47px;
 	width: 100%;
 	border-radius: 10px;
-	padding-top: ;
 	
+}
+
+#icon-search{
+	position: absolute;
+	top: 35px;
+	right: 20px;
+
 }
 
 h1,
@@ -146,6 +152,7 @@ ol {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
+	background-image: url("https://vinmec-prod.s3.amazonaws.com/images/20210519_085017_947287_tre-co-nen-an-nhieu.max-1800x1800.jpg");
 }
 
 .spad {
@@ -424,6 +431,12 @@ background-color: rgb(25, 98, 145);
 
 .header__logo {
 	padding: 15px 0;
+	margin-top: 10px;
+}
+
+#name-shop{
+	position: relative;
+	top: 9px;
 }
 
 .header__logo a {
@@ -510,6 +523,33 @@ background-color: rgb(25, 98, 145);
 .header__cart {
 	text-align: right;
 	padding: 24px 0;
+	display: flex;
+	padding-top: 30px;
+	padding-bottom: 0px;
+	
+}
+
+.menu-trang-chu-hr{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.menu-trang-chu{
+	text-decoration: none;
+	font-weight: 200px;
+	padding-left: 40px;
+	padding-top: 10px;
+	
+}
+
+.menu-trang-chu:hover{
+	color: #fff;
+	background-color: rgb(25, 98, 145);
+}
+
+#dang-nhap-head{
+	text-decoration: none;
+	font-size: 1.1rem;
 }
 
 .header__cart ul {
@@ -620,19 +660,11 @@ background-color: rgb(25, 98, 145);
 	color: #ffffff;
 }
 
-.hero__categories__all:after {
-	position: absolute;
-	right: 18px;
-	top: 9px;
-	content: "3";
-	font-family: "ElegantIcons";
-	font-size: 18px;
-	color: #ffffff;
-}
+
 
 .hero__categories ul {
 	border: 1px solid #ebebeb;
-	padding-left: 40px;
+	padding-left: 0px;
 	padding-top: 10px;
 	padding-bottom: 12px;
 }
@@ -652,6 +684,9 @@ background-color: rgb(25, 98, 145);
 	overflow: hidden;
 	margin-bottom: 30px;
 	padding-top: 18px;
+	position: relative;
+	margin-top: 15px;
+	margin-bottom: 0px;
 }
 
 .hero__search__form {
@@ -750,19 +785,21 @@ background-color: rgb(25, 98, 145);
 }
 
 .hero__text span {
-	font-size: 14px;
+	font-size: 20px;
 	text-transform: uppercase;
 	font-weight: 700;
 	letter-spacing: 4px;
 	color: rgb(25, 98, 145);
+	background-color:rgba(255, 255, 255,0.6) ;
 }
 
 .hero__text h2 {
 	font-size: 46px;
-	color: #252525;
+	color: #fff;
 	line-height: 52px;
 	font-weight: 700;
-	margin: 10px 0;
+	margin: 0px;
+	background-color: rgba(25, 98, 145,0.7);
 }
 
 .hero__text p {
@@ -904,8 +941,8 @@ background-color: rgb(25, 98, 145);
 }
 
 .featured__item__pic__hover li:hover a {
-	background: #7fad39;
-	border-color: #7fad39;
+	background: rgb(25, 98, 145);
+	border-color: rgb(25, 98, 145);
 }
 
 .featured__item__pic__hover li:hover a i {
@@ -913,17 +950,26 @@ background-color: rgb(25, 98, 145);
 	transform: rotate(360deg);
 }
 
+.add-to-cart{
+	text-decoration: none;
+}
+
+.add-to-cart:hover{
+	/* text-decoration: none; */
+	color: #fff;
+}
+
 .featured__item__pic__hover li a {
 	font-size: 16px;
 	color: #1c1c1c;
 	height: 40px;
-	width: 40px;
+	width: 150px;
 	line-height: 40px;
 	text-align: center;
 	border: 1px solid #ebebeb;
 	background: #ffffff;
 	display: block;
-	border-radius: 50%;
+	border-radius: 20px;
 	-webkit-transition: all, 0.5s;
 	-moz-transition: all, 0.5s;
 	-ms-transition: all, 0.5s;
@@ -2630,7 +2676,7 @@ background-color: rgb(25, 98, 145);
 -----------------------*/
 
 .footer {
-	background: #F3F6FA;
+	background: rgb(25, 98, 145);
 	padding-top: 70px;
 	padding-bottom: 0;
 }
@@ -2641,17 +2687,24 @@ background-color: rgb(25, 98, 145);
 
 .footer__about ul li {
 	font-size: 16px;
-	color: #1c1c1c;
+	color: #fff;
 	line-height: 36px;
 	list-style: none;
 }
 
 .footer__about__logo {
 	margin-bottom: 15px;
+	text-align: center;
 }
 
 .footer__about__logo a {
 	display: inline-block;
+}
+
+#name-shop-footer{
+	color: #fff;
+	font-size: 30px;
+	font-weight: bold;
 }
 
 .footer__widget {
