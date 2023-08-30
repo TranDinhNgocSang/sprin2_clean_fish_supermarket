@@ -33,16 +33,41 @@
 html,
 body {
 	height: 100%;
-	font-family: "Quicksand", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
+	font-family: Arial, Helvetica, sans-serif;
+
 }
 
 #input-header{
 	height: 47px;
 	width: 100%;
 	border-radius: 10px;
+	border: none;
 	
+}
+
+#add-detail{
+	height: 50px;
+	border: none;
+	color: #fff;
+	background-color: rgb(25, 98, 145);
+	width: 150px;
+}
+
+#add-detail:hover{
+	color: #fff;
+	background-color: rgb(35, 151, 22) ;
+
+}
+
+.nut-tang-giam{
+	width: 45px;
+	height: 50px;
+	border: none;
+}
+
+.nut-tang-giam:hover{
+	background-color: rgb(25, 98, 145);
+	color: #fff;
 }
 
 #icon-search{
@@ -50,6 +75,17 @@ body {
 	top: 35px;
 	right: 20px;
 
+}
+
+.bth-xem-them{
+	border-radius: 20px;
+	background-color: #fff;
+	width: 400px;
+}
+
+.bth-xem-them:hover{
+	color: #fff;
+	background-color: rgb(25, 98, 145);
 }
 
 h1,
@@ -61,7 +97,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Cairo", sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -90,7 +126,7 @@ h6 {
 
 p {
 	font-size: 16px;
-	font-family: "Cairo", sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	color: #6f6f6f;
 	font-weight: 400;
 	line-height: 26px;
@@ -142,7 +178,7 @@ ol {
 	bottom: -15px;
 	right: 0;
 	height: 4px;
-	width: 80px;
+	width: 200px;
 	background: rgb(25, 98, 145);
 	content: "";
 	margin: 0 auto;
@@ -153,6 +189,49 @@ ol {
 	background-size: cover;
 	background-position: top center;
 	background-image: url("https://vinmec-prod.s3.amazonaws.com/images/20210519_085017_947287_tre-co-nen-an-nhieu.max-1800x1800.jpg");
+}
+
+.set-bg2 {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:  center;
+	background-image: url("https://rauxanhcasach.vn/wp-content/uploads/2016/10/L%C3%A0m-sao-%C4%91%E1%BB%83-ph%C3%A2n-bi%E1%BB%87t-c%C3%A1-nhi%E1%BB%85m-%C4%91%E1%BB%99c1.jpg");
+}
+
+.set-bg3 {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	background-image: url("https://giadinh.mediacdn.vn/FYwJ7viWNMAlcII9V7lP1vv6LIIMi/Image/2013/03/so-huyet-d063f.jpg");
+	
+}
+
+.set-bg4 {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top center;
+	background-image: url("https://cdn.tgdd.vn/Files/2022/05/16/1432944/cach-bao-quan-ghe-song-qua-dem-ma-van-giu-duoc-do-tuoi-cua-thit-ghe-202205161453592882.jpg");
+}
+
+.set-bg5 {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:  center;
+	background-image: url("https://cdn.tgdd.vn/2021/04/content/sasi-800x533.jpg");
+}
+
+.set-bg6 {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:  center;
+	background-image: url("https://media.loveitopcdn.com/5827/hnf-hang-dong-1.jpg");
+}
+
+.set-bg7 {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:  center;
+	background-image: url("https://previews.123rf.com/images/topntp/topntp1802/topntp180205067/96414425-fresh-seafood-raw-shrimps-squids-on-wooden-board-with-ingredients.jpg");
 }
 
 .spad {
@@ -195,6 +274,18 @@ ol {
 	padding: 13px 30px 12px;
 	background: #7fad39;
 	border: none;
+}
+
+.nut-tang-giam-cart{
+	width: 35px;
+	height: 40px;
+	border: none;
+	background-color: #fff;
+}
+
+.nut-tang-giam-cart:hover{
+	background-color: rgb(25, 98, 145);
+	color: #fff;
 }
 
 /* Preloder */
@@ -552,6 +643,10 @@ background-color: rgb(25, 98, 145);
 	font-size: 1.1rem;
 }
 
+#dang-nhap-head:hover{
+	color: #67dd22;
+}
+
 .header__cart ul {
 	display: inline-block;
 	margin-right: 25px;
@@ -800,6 +895,7 @@ background-color: rgb(25, 98, 145);
 	font-weight: 700;
 	margin: 0px;
 	background-color: rgba(25, 98, 145,0.7);
+	border-radius: 7px;
 }
 
 .hero__text p {
@@ -881,6 +977,7 @@ background-color: rgb(25, 98, 145);
 	margin-right: 25px;
 	position: relative;
 	cursor: pointer;
+	
 }
 
 .featured__controls ul li.active:after {
@@ -975,7 +1072,9 @@ background-color: rgb(25, 98, 145);
 	-ms-transition: all, 0.5s;
 	-o-transition: all, 0.5s;
 	transition: all, 0.5s;
+	text-decoration: none;
 }
+
 
 .featured__item__pic__hover li a i {
 	position: relative;
@@ -1108,7 +1207,7 @@ background-color: rgb(25, 98, 145);
 
 .breadcrumb__text h2 {
 	font-size: 46px;
-	color: #ffffff;
+	color: #000;
 	font-weight: 700;
 }
 
@@ -1724,13 +1823,17 @@ background-color: rgb(25, 98, 145);
 .product-details {
 	padding-top: 80px;
 }
+.detail-text{
+	margin-bottom: 10px !important;
+}
 
 .product__details__pic__item {
 	margin-bottom: 20px;
+	text-align: center;
 }
 
 .product__details__pic__item img {
-	min-width: 100%;
+	min-width: 85%;
 }
 
 .product__details__pic__slider img {
@@ -1788,9 +1891,10 @@ background-color: rgb(25, 98, 145);
 }
 
 .product__details__text ul {
-	border-top: 1px solid #ebebeb;
+	border-top: 1px solid #dfdfdf;
 	padding-top: 40px;
 	margin-top: 50px;
+	padding-left: 0px;
 }
 
 .product__details__text ul li {
@@ -1798,6 +1902,7 @@ background-color: rgb(25, 98, 145);
 	color: #1c1c1c;
 	list-style: none;
 	line-height: 36px;
+	color: #737373;
 }
 
 .product__details__text ul li b {
@@ -1819,6 +1924,7 @@ background-color: rgb(25, 98, 145);
 	font-size: 15px;
 	color: #1c1c1c;
 	margin-right: 25px;
+	
 }
 
 .product__details__text ul li .share a:last-child {
@@ -1939,7 +2045,7 @@ background-color: rgb(25, 98, 145);
 -----------------------*/
 
 .shoping-cart {
-	padding-top: 80px;
+	padding-top: 40px;
 	padding-bottom: 80px;
 }
 
@@ -1995,6 +2101,22 @@ background-color: rgb(25, 98, 145);
 	width: 100px;
 }
 
+.textarea-cart{
+	width: 100%;
+	height: 80px;
+	border-color: rgb(25, 98, 145);
+	border-width: 1.5px;
+	border-radius: 5px;
+}
+
+.textarea-cart2{
+	width: 100%;
+	height: 50px;
+	border-color: rgb(25, 98, 145);
+	border-width: 1.5px;
+	border-radius: 5px;
+}
+
 .shoping__cart__table table tbody tr td.shoping__cart__total {
 	font-size: 18px;
 	color: #1c1c1c;
@@ -2010,6 +2132,12 @@ background-color: rgb(25, 98, 145);
 	font-size: 24px;
 	color: #b2b2b2;
 	cursor: pointer;
+}
+
+.shoping__cart__table table tbody tr td.shoping__cart__item__close span:hover{
+	/* background-color: red; */
+	color: red;
+	font-weight: bold;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__quantity {
@@ -2048,14 +2176,14 @@ background-color: rgb(25, 98, 145);
 }
 
 .shoping__discount {
-	margin-top: 45px;
+	margin-top: 20px;
 }
 
 .shoping__discount h5 {
 	font-size: 20px;
 	color: #1c1c1c;
 	font-weight: 700;
-	margin-bottom: 25px;
+	margin-bottom: 8px;
 }
 
 .shoping__discount form input {
@@ -2092,6 +2220,7 @@ background-color: rgb(25, 98, 145);
 	font-weight: 700;
 	font-size: 20px;
 	margin-bottom: 28px;
+	color: black;
 }
 
 .shoping__checkout ul {
@@ -2117,7 +2246,7 @@ background-color: rgb(25, 98, 145);
 
 .shoping__checkout ul li span {
 	font-size: 18px;
-	color: #dd2222;
+	color: #838383;
 	float: right;
 }
 
@@ -2692,6 +2821,10 @@ background-color: rgb(25, 98, 145);
 	list-style: none;
 }
 
+.text-footer{
+	color: #fff;
+}
+
 .footer__about__logo {
 	margin-bottom: 15px;
 	text-align: center;
@@ -2721,10 +2854,15 @@ background-color: rgb(25, 98, 145);
 .footer__widget ul {
 	width: 50%;
 	float: left;
+	
 }
 
 .footer__widget ul li {
 	list-style: none;
+}
+
+.featuredd{
+	padding-top: 20px;
 }
 
 .footer__widget ul li a {
@@ -2737,6 +2875,16 @@ background-color: rgb(25, 98, 145);
 	font-size: 14px;
 	color: #1c1c1c;
 	margin-bottom: 30px;
+}
+
+#cham-soc-foot{
+	color: #fff;
+	font-size: large;
+}
+
+#phone-foot{
+	color: #fff;
+	font-size: 2rem;
 }
 
 .footer__widget form {

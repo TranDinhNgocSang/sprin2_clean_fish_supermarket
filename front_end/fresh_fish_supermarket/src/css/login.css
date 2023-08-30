@@ -1,0 +1,16 @@
+#bg-login{
+    background-image: url("https://www.visittci.com/thing/shore-fishing-pr/default_2048x1365.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.bg-phin{
+    background-color: rgba(188, 188, 17, 0.5) !important    ;
+    
+}
+
+.bg-dark1 {
+    --bs-bg-opacity: 1;
+    background-color: rgba(29, 126, 200, 0.75) !important;
+}
