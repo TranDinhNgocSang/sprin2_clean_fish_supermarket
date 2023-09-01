@@ -11,6 +11,7 @@ import SashimiList from "./components/SashimiList";
 import ShoppingCart from "./components/ShoppingCart";
 import TomMucList from "./components/TomMucList";
 import {Routes,Route} from "react-router-dom"
+import Register from "./components/Register";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
   <Route path="/login" element={<Login></Login>}></Route>
   <Route path="/cart" element={<ShoppingCart></ShoppingCart>}></Route>
   <Route path="/detail" element={<DetaiProduct></DetaiProduct>}></Route>
+  <Route path="/register" element={<Register></Register>}></Route>
 </Routes>
 
 {/* <Home></Home> */}

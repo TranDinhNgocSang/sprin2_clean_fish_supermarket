@@ -45,6 +45,12 @@ body {
 	
 }
 
+.carousel-inner .carousel-item img {
+	width: 50%;
+	height: 450px;
+
+}
+
 #add-detail{
 	height: 50px;
 	border: none;
