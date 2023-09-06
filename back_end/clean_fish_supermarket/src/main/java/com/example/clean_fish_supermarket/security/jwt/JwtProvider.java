@@ -1,0 +1,53 @@
+package com.example.clean_fish_supermarket.security.jwt;
+
+import com.example.clean_fish_supermarket.security.UserPrinciple;
+import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Component
+public class JwtProvider {
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+    private String jwtSecret = "trandinhngocsang";
+    private int jwtExpiration = 86400;
+
+    // tạo token từ thông tin user
+    public String createToken(Authentication authentication) {
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        return Jwts.builder()
+                .setSubject(userPrinciple.getUsername())
+                .setIssuedAt(new Date()).
+                setExpiration(new Date(new Date().getTime() + jwtExpiration * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+    // kiểm tra token có hợp lệ không
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(token);
+            return true;
+        } catch (SignatureException e) {
+            logger.error("Invalid JWT signature -> message: {}", e);
+        } catch (MalformedJwtException e) {
+            logger.error("The token invalid fomat ->{}", e);
+        } catch (UnsupportedJwtException e) {
+            logger.error("Unsupported JWT token ->{}", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Jwt claims string is empty ->{}", e);
+        }catch (ExpiredJwtException e){
+            logger.error("Expired JWT token");
+        }
+        return false;
+    }
+
+    // lấy thông tin uset từ token
+    public String getEmailFromToken(String token) {
+        String email = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(token).getBody().getSubject();
+        return email;
+    }
+}

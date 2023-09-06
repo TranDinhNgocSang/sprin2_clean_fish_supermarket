@@ -14,7 +14,7 @@ public class Product {
     @Column(columnDefinition = "VARCHAR(255)")
     private String nameProduct;
     private Long price;
-    private double isDeleteProduct;
+    private boolean isDeleteProduct;
     private int quantity;
     @ManyToOne
     @JoinColumn(name = "id_type_product")
@@ -24,7 +24,7 @@ public class Product {
     }
 
     public Product(int idProduct, String img, String describeProduct, String nameProduct, Long price,
-                   double isDeleteProduct, int quantity, TypeProduct typeProduct) {
+                   boolean isDeleteProduct, int quantity, TypeProduct typeProduct) {
         this.idProduct = idProduct;
         this.img = img;
         this.describeProduct = describeProduct;
@@ -75,11 +75,11 @@ public class Product {
         this.price = price;
     }
 
-    public double getIsDeleteProduct() {
+    public boolean isDeleteProduct() {
         return isDeleteProduct;
     }
 
-    public void setIsDeleteProduct(double isDeleteProduct) {
+    public void setIsDeleteProduct(boolean isDeleteProduct) {
         this.isDeleteProduct = isDeleteProduct;
     }
 

@@ -45,11 +45,11 @@ body {
 	
 }
 
-.carousel-inner .carousel-item img {
+/* .carousel-inner .carousel-item img {
 	width: 50%;
 	height: 450px;
 
-}
+} */
 
 #add-detail{
 	height: 50px;
@@ -87,6 +87,7 @@ body {
 	border-radius: 20px;
 	background-color: #fff;
 	width: 400px;
+	margin-top: 50px
 }
 
 .bth-xem-them:hover{

@@ -1,5 +1,7 @@
 package com.example.clean_fish_supermarket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,9 +15,10 @@ public class User {
     private String dayOfBirth;
     private boolean gender;
     private boolean isDeleteUser;
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(255)",unique = true)
     private String email;
-    @Column(columnDefinition = "VARCHAR(20)")
+    @JsonIgnore
+    @Column(columnDefinition = "LONGTEXT")
     private String password;
     @Column(columnDefinition = "VARCHAR(10)")
     private String phone;
@@ -24,6 +27,17 @@ public class User {
     private Role role;
 
     public User() {
+    }
+
+    public User(String nameUser, String dayOfBirth, boolean gender, String email, String password,
+                String phone, Role role) {
+        this.nameUser = nameUser;
+        this.dayOfBirth = dayOfBirth;
+        this.gender = gender;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.role = role;
     }
 
     public User(int idUser, String nameUser, String dayOfBirth, boolean gender, boolean isDeleteUser, String email,
@@ -38,6 +52,8 @@ public class User {
         this.phone = phone;
         this.role = role;
     }
+
+
 
     public int getIdUser() {
         return idUser;

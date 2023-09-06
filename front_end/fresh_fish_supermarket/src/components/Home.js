@@ -1,8 +1,55 @@
 import{Link, useNavigate} from "react-router-dom"
+import {getLimitListProductByType} from "../service/productService"
+import { useEffect, useState } from "react";
 
 function Home (){
-
   const navigate = useNavigate();
+  const[caTuoi,setCaTuoi] = useState([]);
+  const[tomMuc,setTomMuc] = useState([]);
+  const[ocNgheu,setOcNgheu] = useState([]);
+  const[cuaGhe,setcuaGhe] = useState([]);
+  const[sashimi,setSashimi] = useState([]);
+  const[dongLanh,setDongLanh] = useState([]);
+
+  const getListCaTuoi = async()=>{
+const data = await getLimitListProductByType(1,4);
+setCaTuoi(data);
+  }
+
+  const getListTomMuc = async()=>{
+    const data = await getLimitListProductByType(2,4);
+    setTomMuc(data);
+      }
+
+      const getListOcNgheu = async()=>{
+        const data = await getLimitListProductByType(3,4);
+        setOcNgheu(data);
+          }
+
+          const getListCuaGhe = async()=>{
+            const data = await getLimitListProductByType(4,4);
+            setcuaGhe(data);
+              }
+
+              const getListSashimi = async()=>{
+                const data = await getLimitListProductByType(5,4);
+                setSashimi(data);
+                  }
+
+                  const getListDongLanh = async()=>{
+                    const data = await getLimitListProductByType(6,4);
+                    setDongLanh(data);
+                      }
+  
+useEffect(()=>{
+getListCaTuoi();
+getListTomMuc();
+getListOcNgheu();
+getListCuaGhe();
+getListSashimi();
+getListDongLanh();
+},[])
+
     return(
         <>
       <div>
@@ -77,10 +124,12 @@ function Home (){
               <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                 <div className="featured__item"
                 style={{
-                  backgroundImage: "url('img/blog/blog-6.jpg')",
+                  backgroundImage: "url('img/product/dong-lanh/bovien.jpg')",
                   height: "270px",
-                  // position: "relative",
-                  backgroundPosition: "center"
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
                 }}
                 onClick={()=>{navigate("/detail")}}
                 >
@@ -200,58 +249,33 @@ function Home (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+              {caTuoi.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
+                }}
+                onClick={()=>{navigate("/detail")}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a href="/#">{c.nameProduct}</a></h6>
+                    <h5>{c.price} vnd</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
           <button className="bth-xem-them">Xem Thêm sản phẩm cá tươi tự nhiên...</button>
           </div>
@@ -270,58 +294,33 @@ function Home (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+            {tomMuc.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
+                }}
+                onClick={()=>{navigate("/detail")}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏt</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a href="/#">{c.nameProduct}</a></h6>
+                    <h5>{c.price} vnd</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
           <button className="bth-xem-them">Xem Thêm sản phẩm tôm, mực...</button>
           </div>
@@ -340,58 +339,33 @@ function Home (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+            {ocNgheu.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
+                }}
+                onClick={()=>{navigate("/detail")}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a href="/#">{c.nameProduct}</a></h6>
+                    <h5>{c.price} vnd</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
           <button className="bth-xem-them">Xem Thêm sản phẩm ốc, nghêu, sò...</button>
           </div>
@@ -410,58 +384,33 @@ function Home (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+            {cuaGhe.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
+                }}
+                onClick={()=>{navigate("/detail")}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏt</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a href="/#">{c.nameProduct}</a></h6>
+                    <h5>{c.price} vnd</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
           <button className="bth-xem-them">Xem Thêm sản phẩm Cua, Ghẹ...</button>
           </div>
@@ -480,58 +429,33 @@ function Home (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+            {sashimi.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
+                }}
+                onClick={()=>{navigate("/detail")}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a href="/#">{c.nameProduct}</a></h6>
+                    <h5>{c.price} vnd</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
           <button className="bth-xem-them">Xem Thêm sản phẩm sashimi...</button>
           </div>
@@ -550,58 +474,33 @@ function Home (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+            {dongLanh.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+
+                }}
+                onClick={()=>{navigate("/detail")}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a href="/#">{c.nameProduct}</a></h6>
+                    <h5>{c.price} vnd</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
           <button className="bth-xem-them">Xem Thêm sản phẩm hải sản đông lạnh...</button>
           </div>
