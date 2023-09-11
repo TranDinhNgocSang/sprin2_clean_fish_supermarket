@@ -25,6 +25,12 @@ public class Cart {
         this.product = product;
     }
 
+    public Cart(int quantityProduct, User user, Product product) {
+        this.quantityProduct = quantityProduct;
+        this.user = user;
+        this.product = product;
+    }
+
     public int getIdCart() {
         return idCart;
     }

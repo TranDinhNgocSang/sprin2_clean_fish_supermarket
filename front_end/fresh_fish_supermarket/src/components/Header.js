@@ -1,6 +1,31 @@
-import{Link} from "react-router-dom"
+import { useEffect, useState } from "react";
+import{Link, useLocation, useNavigate} from "react-router-dom"
 
 function Header(){
+  const[flag,setFlag]= useState();
+  const location = useLocation();
+  const[search,setSearch]= useState("");
+  const navigate = useNavigate();
+
+  const handleOnClickSearch = ()=>{
+    const searchUp = search;
+    setSearch("")
+    if(searchUp!==""){
+      navigate("/timkiem/"+searchUp)
+    }
+  }
+
+  const handleOnKeyPress = (e) => {
+    if (e.key === "Enter") {
+      const searchUp = search;
+      setSearch("")
+      if(searchUp!==""){
+        navigate("/timkiem/"+searchUp)
+      }
+      e.preventDefault();
+    }
+  };
+
     return(
         <>
         <meta charSet="UTF-8" />
@@ -38,15 +63,34 @@ function Header(){
               </div>
               <div className="col-lg-6">
               <div className="hero__search">
-                      <input type="text" id="input-header" placeholder="Tìm kiếm sản phẩm..." />
-                      <i class="fa-solid fa-magnifying-glass" id="icon-search"></i>
+                      <input type="text" id="input-header" placeholder="Tìm kiếm sản phẩm..." onChange={(e)=>{setSearch(e.target.value)}} style={{paddingLeft: "20px"}} value={search} onKeyPress={handleOnKeyPress}/>
+                      <i class="fa-solid fa-magnifying-glass" id="icon-search" onClick={handleOnClickSearch}></i>
+
                 </div>
               </div>
               <div className="col-lg-3">
                 <div className="header__cart">
                   <ul>
                     <li> <div className="header__top__right__auth">
+                      {localStorage.getItem("userName")==null?
                       <Link to={"/login"} id="dang-nhap-head"><i className="fa fa-user" style={{color:"white" }}/>Đăng nhập</Link>
+                      :
+                      <Link className="login-user" id="dang-nhap-head2"><i className="fa fa-user" style={{color:"white" }}/>
+                      <b>{localStorage.getItem("userName")}</b>
+                        <div className="login-user-list">
+                        <div className="login-user-item"
+                        onClick={()=>{
+                          localStorage.removeItem("token");
+                          localStorage.removeItem("userName");
+                          localStorage.removeItem("role");
+                          setFlag(!flag)
+                        }}
+                        >Đăng xuất</div>
+                        <div className="login-user-item">Lịch sử mua hàng</div> 
+                       </div>
+                      </Link>
+                    }
+                      
                     </div>  </li>
                     <li><Link to={"/cart"}><i className="fa fa-shopping-bag" style={{color:"white"}} /> <span style={{color:"white", background : "red"}} >0</span></Link></li>
                   </ul>

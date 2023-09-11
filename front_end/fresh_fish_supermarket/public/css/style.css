@@ -51,6 +51,54 @@ body {
 
 } */
 
+.bo-loc{
+	text-align: center;
+	
+}
+
+.text-loc{
+	border: solid 1px #000;
+	width: 270px;
+	text-align: center;
+	border-radius: 15px;
+}
+
+.loc-gia{
+	color: #000 !important;
+	background-color: #fff !important;
+	width: 160px !important;
+	border: solid 1px #000;
+	border-radius: 5px;
+}
+
+.sap-xep{
+	min-width: 160px !important;
+	/* max-width: */
+}
+
+.khongsp{
+	text-align: center;
+	font-weight: bold;
+	font-size: 2rem;
+}
+
+.loc-gia:hover{
+	color: #000 !important;
+	background-color: #ffffff !important;
+}
+
+.boloc{
+	border-right: solid 2px #989090;
+	margin-bottom: 30px;
+	
+}
+
+.dau-x:hover{
+	color: rgb(25, 98, 145);
+	font-weight: bold;
+	cursor: pointer;
+}
+
 #add-detail{
 	height: 50px;
 	border: none;
@@ -91,6 +139,19 @@ body {
 }
 
 .bth-xem-them:hover{
+	color: #fff;
+	background-color: rgb(25, 98, 145);
+}
+
+.btn-plus{
+	border-radius: 20px;
+	background-color: #fff;
+	width: 220px;
+	margin-bottom: 40px;
+	margin-top: 0px !important
+}
+
+.btn-plus:hover{
 	color: #fff;
 	background-color: rgb(25, 98, 145);
 }
@@ -361,6 +422,7 @@ ol {
 
 .navbarSang {
 background-color: rgb(25, 98, 145);
+/* position: fixed; */
 }
 /*---------------------
   Header
@@ -519,7 +581,7 @@ background-color: rgb(25, 98, 145);
     color: #fff;
     padding-right: 30px;
     padding-top: 15px;
-    border-right: 2px solid rgb(123, 120, 120);
+    border-right: 2px solid rgb(203, 197, 197);
     margin-right: 21px;
 }
 
@@ -648,6 +710,61 @@ background-color: rgb(25, 98, 145);
 #dang-nhap-head{
 	text-decoration: none;
 	font-size: 1.1rem;
+}
+.login-user{
+	position: relative;
+}
+.login-user-list{
+	padding-left: 0 ;
+	list-style: none;
+	padding-top: 32px;
+	display: flex;
+	position: absolute;
+	flex-direction: column ;
+	top:20px;
+	left: -5px;
+	width: 200px;
+	background-color: #fff;
+	background-clip: content-box;
+	z-index: 999;
+	display: none !important;
+	border-radius: 10px;
+}
+.login-user-item{
+	padding: 10px;
+}
+.login-user-item:hover{
+	background: rgb(25, 98, 145);
+	color: #fff;
+	border-radius: 5px;
+}
+
+.message-err-login{
+	color: rgb(201, 21, 21) !important;
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+#dang-nhap-head2:hover {
+	color: #16b50e;
+	
+}
+
+#dang-nhap-head2:hover .login-user-list{
+	display: block !important;
+	color: #000;
+}
+.login-user-item{
+	min-width: 180px;
+	text-align: left;
+	padding-left: 15px;
+	
+}
+#dang-nhap-head2{
+	text-decoration: none;
+	font-size: 1.1rem;
+	margin-top: 17px;
+	padding-top: 0px;
 }
 
 #dang-nhap-head:hover{
@@ -787,7 +904,7 @@ background-color: rgb(25, 98, 145);
 	margin-bottom: 30px;
 	padding-top: 18px;
 	position: relative;
-	margin-top: 15px;
+	margin-top: 7px;
 	margin-bottom: 0px;
 }
 
@@ -1008,10 +1125,36 @@ background-color: rgb(25, 98, 145);
 
 .featured__item {
 	margin-bottom: 50px;
+	position: relative;
+}
+
+.dropdown-toggle{
+	position: absolute;
+	top: 0px;
+	z-index: 99999;
+	color: #fff;
+}
+
+.btn-secondary{
+	--bs-btn-bg: rgba(25, 98, 145,0.5) !important;
+}
+
+.btn:first-child:hover, :not(.btn-check)+.btn:hover {
+    background-color: rgba(25, 98, 145) !important;
 }
 
 .featured__item:hover .featured__item__pic .featured__item__pic__hover {
 	bottom: 20px;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: #fff !important;
+    background-color: rgba(25, 98, 145) !important;
+	font-weight: bold;
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 6rem !important;
 }
 
 .featured__item__pic {
@@ -1104,6 +1247,8 @@ background-color: rgb(25, 98, 145);
 
 .featured__item__text h6 a {
 	color: #252525;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .featured__item__text h5 {
@@ -2040,7 +2185,7 @@ background-color: rgb(25, 98, 145);
 -----------------------*/
 
 .related-product {
-	padding-bottom: 30px;
+	padding-bottom: 80px;
 }
 
 .related__product__title {

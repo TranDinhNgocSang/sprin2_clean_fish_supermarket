@@ -19,4 +19,7 @@ on product.id_product = order_detail.id_product
 join order_product
 on order_product.id_oder = order_detail.id_oder
 group by product.id_product
-order by count(*) Asc
+order by count(*) Asc;
+
+SELECT count(*) FROM clean_fish_supermarket.product
+where id_type_product = 1;

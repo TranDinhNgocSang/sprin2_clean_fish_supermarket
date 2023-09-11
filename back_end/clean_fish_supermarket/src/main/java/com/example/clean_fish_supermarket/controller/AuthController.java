@@ -79,7 +79,8 @@ public class AuthController {
             String token = jwtProvider.createToken(authentication);
             // lấy quyền của user
             UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-            JwtReponse jwtReponse = new JwtReponse(token,userPrinciple.getNameUser(),userPrinciple.getAuthorities());
+            JwtReponse jwtReponse = new JwtReponse(token,userPrinciple.getNameUser(),userPrinciple.getAuthorities().
+                    toArray()[0].toString());
             return new ResponseEntity<>(jwtReponse,HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(new ResponseMessage("Đăng nhập thất bại"),HttpStatus.BAD_REQUEST);

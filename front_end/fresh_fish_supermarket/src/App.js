@@ -12,6 +12,7 @@ import ShoppingCart from "./components/ShoppingCart";
 import TomMucList from "./components/TomMucList";
 import {Routes,Route} from "react-router-dom"
 import Register from "./components/Register";
+import TimKiem from "./components/TimKiem";
 
 
 function App() {
@@ -28,20 +29,10 @@ function App() {
   <Route path="/hs-dong-lanh" element={<HaiSanDongLanhList></HaiSanDongLanhList>}></Route>
   <Route path="/login" element={<Login></Login>}></Route>
   <Route path="/cart" element={<ShoppingCart></ShoppingCart>}></Route>
-  <Route path="/detail" element={<DetaiProduct></DetaiProduct>}></Route>
+  <Route path="/:data" element={<DetaiProduct></DetaiProduct>}></Route>
   <Route path="/register" element={<Register></Register>}></Route>
+  <Route path="/timkiem/:name" element={<TimKiem></TimKiem>}></Route>
 </Routes>
-
-{/* <Home></Home> */}
-{/* <Login></Login> */}
-{/* <DetaiProduct></DetaiProduct> */}
-{/* <ShoppingCart></ShoppingCart> */}
-{/* <CatuoiList></CatuoiList> */}
-{/* <TomMucList></TomMucList> */}
-{/* <OcHauList></OcHauList> */}
-{/* <CuaGheList></CuaGheList> */}
-{/* <SashimiList></SashimiList> */}
-{/* <HaiSanDongLanhList></HaiSanDongLanhList> */}
 <Footer></Footer>
 </>
   );

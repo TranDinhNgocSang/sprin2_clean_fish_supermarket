@@ -1,24 +1,26 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  getLimitListProductByType,
-  countProductByIdType,
+  countSearch,
+  searchByName
 } from "../service/productService";
 import { useEffect, useState } from "react";
 import numeral from "numeral";
+import {} from "../App.css"
 
-function SashimiList() {
+function TimKiem() {
   const [products, setProducts] = useState([]);
   const [quantityProduct, setQuantityProduct] = useState(0);
   const navigate = useNavigate();
   const [limit, setLimit] = useState(8);
+  const {name} = useParams();
 
   const getListProduct = async () => {
-    const data = await getLimitListProductByType(5, limit);
+    const data = await searchByName(name, limit);
     setProducts(data);
   };
 
   const getQuantityProduct = async () => {
-    const data = await countProductByIdType(5);
+    const data = await countSearch(name);
     setQuantityProduct(data);
   };
 
@@ -31,7 +33,7 @@ function SashimiList() {
   useEffect(() => {
     getListProduct();
     getQuantityProduct();
-  }, [limit]);
+  }, [limit,name]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -67,101 +69,31 @@ function SashimiList() {
           type="text/css"
         />
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/style.css" type="text/css" />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
-
-        <section className="hero">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-3">
-                <div className="hero__categories">
-                  <div className="hero__categories__all">
-                    <span>Danh mục sản phẩm</span>
-                  </div>
-                  <ul>
-                    <li>
-                      <Link
-                        to={"/ca-tuoi"}
-                        className="menu-trang-chu"
-                        href="/#"
-                      >
-                        CÁ TƯƠI TỰ NHIÊN
-                      </Link>
-                    </li>
-                    <hr className="menu-trang-chu-hr"></hr>
-                    <li>
-                      <Link
-                        to={"/tom-muc"}
-                        className="menu-trang-chu"
-                        href="/#"
-                      >
-                        TÔM, BẠC TUỘT, MỰC
-                      </Link>
-                    </li>
-                    <hr className="menu-trang-chu-hr"></hr>
-                    <li>
-                      <Link to={"/oc-hau"} className="menu-trang-chu" href="/#">
-                        ỐC, HÀU, VẸM CÁC LOẠI
-                      </Link>
-                    </li>
-                    <hr className="menu-trang-chu-hr"></hr>
-                    <li>
-                      <Link
-                        to={"/cua-ghe"}
-                        className="menu-trang-chu"
-                        href="/#"
-                      >
-                        CUA-GHẸ
-                      </Link>
-                    </li>
-                    <hr className="menu-trang-chu-hr"></hr>
-                    <li style={{ backgroundColor: "rgb(25, 98, 145)" }}>
-                      <Link
-                        to={"/sashimi"}
-                        style={{ color: "white" }}
-                        className="menu-trang-chu"
-                      >
-                        <b>SASHIMI CHUẨN NHẬT</b>
-                      </Link>
-                    </li>
-
-                    <hr className="menu-trang-chu-hr"></hr>
-                    <li>
-                      <Link
-                        to={"/hs-dong-lanh"}
-                        className="menu-trang-chu"
-                        href="/#"
-                      >
-                        HẢI SẢN ĐÔNG LẠNH
-                      </Link>
-                    </li>
-                    <hr className="menu-trang-chu-hr"></hr>
-                    <li>
-                      <a className="menu-trang-chu">MÓN NGON CÓ SẴN</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col-lg-9">
-                <div className="hero__item set-bg5"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="featured spad featuredd">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <div className="section-title">
-                  <h2>Sashimi - Ngon Chuẩn Nhật</h2>
+                <div className="section-title" style={{marginBottom: "0px"}}>
+                  <h2>Tìm kiếm</h2><br></br>
+                  <p >có <b>{quantityProduct} sản phẩm</b> cho tìm kiếm</p>
                 </div>
+                <p style={{marginBottom: "40px"}}>kết quả tìm kiếm cho <b>"{name}"</b></p>
               </div>
             </div>
-            <div className="row featured__filter">
+            {products.length==0?
+            <div 
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+	fontSize: "2rem",
+  margin: "47px"
+            }}>Không tìm thấy nội dung bạn yêu cầu</div>
+            :
+<div className="row featured__filter">
               {products.map((c) => {
                 return (
                   <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
@@ -197,7 +129,7 @@ function SashimiList() {
                       <div
                         className="featured__item__pic set-bg"
                         style={{
-                          backgroundImage: `url('${c.img}')`,
+                          backgroundImage: `url('/${c.img}')`,
                           height: "270px",
                           backgroundepReat: "no-repeat",
                           backgroundSize: "cover",
@@ -254,10 +186,12 @@ function SashimiList() {
                 )}
               </div>
             </div>
+          }
+            
           </div>
         </section>
       </div>
     </>
   );
 }
-export default SashimiList;
+export default TimKiem;

@@ -1,6 +1,40 @@
-import{Link} from "react-router-dom"
+import{Link, useNavigate} from "react-router-dom"
+import {getLimitListProductByType,countProductByIdType} from "../service/productService"
+import { useEffect, useState } from "react";
+import numeral from "numeral";
 
 function HaiSanDongLanhList (){
+  const[products,setProducts] = useState([]);
+  const [quantityProduct,setQuantityProduct] = useState(0);
+  const navigate = useNavigate();
+  const [limit, setLimit] = useState(8);
+
+  const getListProduct = async()=>{
+const data = await getLimitListProductByType(6,limit);
+setProducts(data);
+  }
+
+  const getQuantityProduct = async()=>{
+    const data = await countProductByIdType(6);
+    setQuantityProduct(data);
+  }
+
+  const handleButtonXemthem = async()=>{
+    const newLimit = limit+8;
+    await getListProduct(newLimit);
+    setLimit(newLimit);
+    
+  }
+
+  useEffect(()=>{
+getListProduct();
+getQuantityProduct();
+  },[limit])
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
     return(
         <>
       <div>
@@ -69,60 +103,51 @@ function HaiSanDongLanhList (){
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
+            {products.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
                 <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                {localStorage.getItem("role")==="ROLE_ADMIN"?
+                      <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Xóa</a></li>
+                        <li><a class="dropdown-item" href="#">Sửa</a></li>
+                      </ul>
+                    </div>
+                    :
+                    <></>
+                    }
+                  <div className="featured__item__pic set-bg" 
+                  
+style={{
+  backgroundImage:`url('${c.img}')`,
+  height: "270px",
+  backgroundepReat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundPosition: "top center",
+}}
+onClick={()=>{navigate("/detail,"+c.idProduct+","+c.typeProduct.idTypeProduct)}}
+                  >
+                     <ul className="featured__item__pic__hover">
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
                   <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                    <h6><a onClick={()=>{navigate("/detail,"+c.idProduct+","+c.typeProduct.idTypeProduct)}}>{c.nameProduct}</a></h6>
+                    <h5>{numeral(c.price).format('00,0 đ')} vnđ</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6><a href="/#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
               <div style={{textAlign: "center"}}>
-          <button className="bth-xem-them">Xem Thêm sản phẩm hải sản đông lạnh...</button>
+              {products.length<quantityProduct?
+                <button className="btn-plus" onClick={handleButtonXemthem}>Xem Thêm {quantityProduct-products.length} sản phẩm<i class="fa-solid fa-angle-down"></i></button>
+                :
+                <></>
+              }
           </div>
             </div>
           </div>   

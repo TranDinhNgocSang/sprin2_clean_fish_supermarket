@@ -1,10 +1,47 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {getProductById, getLimitListProductByType} from "../service/productService"
+import numeral from "numeral";
 
 function DetaiProduct (){
+  const {data} = useParams();
+  const navigate = useNavigate();
+  const [product,setProduct] = useState();
+  const [listProduct,setListProduct] = useState([]);
+  const [flag,setFlag]= useState(false);
+
+  const arrData = data.split(",");
+  const idProduct = arrData[1];
+  const idType = arrData[2];
+
+
+  const getProduct = async()=>{
+const data = await getProductById(idProduct);
+setProduct(data);
+  }
+
+  const handelOnClick = async(id)=>{
+    window.scrollTo(0, 0);
+    const data = await getProductById(id);
+    setProduct(data);
+  }
+
+  const getListProduct = async ()=>{
+const data = await getLimitListProductByType(idType,4)
+setListProduct(data);
+  }
+
+  console.log(product);
 
   useEffect(()=>{
+    getProduct();
     window.scrollTo(0, 0);
+    getListProduct();
   },[])
+
+  if(!product){
+    return null;
+  }
     return(
         <>
          <div>
@@ -35,15 +72,15 @@ function DetaiProduct (){
               <div className="col-lg-6 col-md-6">
                 <div className="product__details__pic">
                   <div className="product__details__pic__item">
-                    <img style={{ width: "200px" }} className="product__details__pic__item--large" src="https://dacsannanggio.vn/image/catalog/Ca/ca-lao/ca-lao.jpg" alt="" />
+                    <img style={{ width: "200px" }} className="product__details__pic__item--large" src={product.img} alt="" />
                   </div>  
                 </div>
               </div>
               <div className="col-lg-6 col-md-6">
                 <div className="product__details__text">
-                  <h3>Cá chìa vôi</h3>
-                  <div className="product__details__price">$50.00</div>
-                  <p>Thơm ngon mời bạn ăn nha, tôi đây không chờ bạn nữa giờ tôi ăn liền</p>
+                  <h3>{product.nameProduct}</h3>
+                  <div className="product__details__price">{numeral(product.price).format('00,0 đ')}đ</div>
+                  <p>{product.describeProduct}</p>
                   <div className="product__details__quantity">
                   <p className="detail-text">KHỐI LƯỢNG: 1KG </p>
                     <div className="quantity">                  
@@ -60,9 +97,9 @@ function DetaiProduct (){
                   </div>
                   <button id="add-detail"><b>ADD TO CARD</b></button>
                   <ul>
-                    <li><i class="fa-solid fa-truck"></i>&nbsp;&nbsp;&nbsp;&nbsp;Giao hàng nhanh trong 2 giờ, nội thành TP.Đà Nẵng.</li>
-                    <li><i class="fa-solid fa-box"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đổi trả với bất kỳ lý do gì liên quan đến sản phẩm.</li>
-                    <li><i class="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nhiều ưu đã cho thành viên.</li>
+                    <li><i className="fa-solid fa-truck"></i>&nbsp;&nbsp;&nbsp;&nbsp;Giao hàng nhanh trong 2 giờ, nội thành TP.Đà Nẵng.</li>
+                    <li><i className="fa-solid fa-box"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đổi trả với bất kỳ lý do gì liên quan đến sản phẩm.</li>
+                    <li><i className="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nhiều ưu đã cho thành viên.</li>
                   </ul>
                 </div>
               </div>
@@ -81,58 +118,32 @@ function DetaiProduct (){
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="featured__item">
-                <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
+            {listProduct.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
+                <div className="featured__item"
+                style={{
+                  backgroundImage:`url('${c.img}')`,
+                  height: "270px",
+                  backgroundepReat: "no-repeat",
+	                backgroundSize: "cover",
+	                backgroundPosition: "top center",
+                }}
+                onClick={()=>{handelOnClick(c.idProduct)}}
+                >
+                  <div className="featured__item__pic">
                     <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
-                  <div className="product__item__text">
-                    <h6><a href="#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
+                  <div className="featured__item__text">
+                    <h6><a onClick={()=>{handelOnClick(c.idProduct)}}>{c.nameProduct}</a></h6>
+                    <h5>{numeral(c.price).format('00,0 đ')} vnđ</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6">
-                <div className="featured__item">
-                <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span className="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="product__item__text">
-                    <h6><a href="#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="featured__item">
-                <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="product__item__text">
-                    <h6><a href="#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="featured__item">
-                <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-                    <ul className="featured__item__pic__hover">
-                    <li><a href="/#"><span class="add-to-cart"><b>add to cart</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
-                  </div>
-                  <div className="product__item__text">
-                    <h6><a href="#">Crab Pool Security</a></h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
             </div>
           </div>
         </section>

@@ -8,31 +8,26 @@ public class JwtReponse {
     String token;
     private String type = "Bearer";
     private String userName;
-    private Collection<? extends GrantedAuthority> role;
+    private String role;
 
     public JwtReponse() {
     }
 
-    public JwtReponse(String token) {
-        this.token = token;
-    }
-
-    public JwtReponse(String token, String type, String userName, Collection<? extends GrantedAuthority> role) {
+    public JwtReponse(String token, String type, String userName, String role) {
         this.token = token;
         this.type = type;
         this.userName = userName;
         this.role = role;
     }
 
-
-    public JwtReponse(String token, String nameUser, Collection<? extends GrantedAuthority> authorities) {
-        this.token = token;
-        this.userName = nameUser;
-        this.role = authorities;
-    }
-
     public String getToken() {
         return token;
+    }
+
+    public JwtReponse(String token, String userName, String role) {
+        this.token = token;
+        this.userName = userName;
+        this.role = role;
     }
 
     public void setToken(String token) {
@@ -55,11 +50,11 @@ public class JwtReponse {
         this.userName = userName;
     }
 
-    public Collection<? extends GrantedAuthority> getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Collection<? extends GrantedAuthority> role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

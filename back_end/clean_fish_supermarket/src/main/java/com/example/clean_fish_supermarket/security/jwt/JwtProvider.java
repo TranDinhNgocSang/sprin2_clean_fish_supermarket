@@ -29,25 +29,26 @@ public class JwtProvider {
     // kiểm tra token có hợp lệ không
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(token);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
-            logger.error("Invalid JWT signature -> message: {}", e);
+            logger.error("Ivalid JWT sinature ->Message: {}", e);
         } catch (MalformedJwtException e) {
-            logger.error("The token invalid fomat ->{}", e);
+            logger.error("The token invalid format ->Message: {}", e);
         } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported JWT token ->{}", e);
+            logger.error("Unsupported JWT toekn ->Message: {}", e);
+        } catch (ExpiredJwtException e) {
+            logger.error("Expired JWT Token -> Message: {}", e);
         } catch (IllegalArgumentException e) {
-            logger.error("Jwt claims string is empty ->{}", e);
-        }catch (ExpiredJwtException e){
-            logger.error("Expired JWT token");
+            logger.error("Jwt claims string is empty -> Message {}", e);
         }
         return false;
     }
 
     // lấy thông tin uset từ token
     public String getEmailFromToken(String token) {
-        String email = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(token).getBody().getSubject();
-        return email;
+        String userName = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return userName;
     }
+
 }
