@@ -1,12 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   getLimitListProductByType,
   countProductByIdType,
   getListProductBetweenByPrice,
   countSearchBetween,
 } from "../service/productService";
+import {addProductToCart} from "../service/cartService"
 import { useEffect, useState } from "react";
 import numeral from "numeral";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from "sweetalert2";
 
 function CatuoiList() {
   const [products, setProducts] = useState([]);
@@ -15,6 +19,9 @@ function CatuoiList() {
   const [limit, setLimit] = useState(8);
   const [textLoc, settextLoc] = useState("");
   const [textSapXep, setTextSapXep] = useState("");
+  const location = useLocation();
+
+  console.log(localStorage);
 
   const getListProduct = async () => {
     const data = await getLimitListProductByType(1, limit);
@@ -43,6 +50,28 @@ function CatuoiList() {
           setProducts(data);
     }   
   };
+
+  const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
+    const headers = {
+      'Authorization': `Bearer ${localStorage.getItem("token")}`,
+    };
+    try {
+      await addProductToCart(idProduct,headers);
+      toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
+        position: "top-right",
+        autoClose: 800,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    } catch (error) {
+      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+    }
+
+  }
 
   useEffect(() => {
     getListProduct();
@@ -197,7 +226,7 @@ function CatuoiList() {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-1">
+              <div className="col-lg-1" style={{zIndex : "-999 !important"}}>
                 <div className="bo-loc">
                   <div class="dropdown">
                     <a
@@ -298,7 +327,7 @@ function CatuoiList() {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3" style={{zIndex : "-999 !important"}}>
                 <div className="bo-loc">
                   <div class="dropdown">
                     <a
@@ -409,7 +438,29 @@ function CatuoiList() {
                           backgroundSize: "cover",
                           backgroundPosition: "top center",
                         }}
-                        onClick={() => {
+                        // onClick={() => {
+                        //   navigate(
+                        //     "/detail," +
+                        //       c.idProduct +
+                        //       "," +
+                        //       c.typeProduct.idTypeProduct
+                        //   );
+                        // }}
+                      >
+                        <ul className="featured__item__pic__hover">
+                          <li onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                            <a>
+                              <span class="add-to-cart">
+                                <b>thêm vào giỏ</b>
+                              </span>{" "}
+                              <i className="fa fa-shopping-cart" />
+                            </a>
+                          </li>
+                        </ul>
+                        <ToastContainer></ToastContainer>
+                      </div>
+                      <div className="featured__item__text"
+                         onClick={() => {
                           navigate(
                             "/detail," +
                               c.idProduct +
@@ -418,29 +469,8 @@ function CatuoiList() {
                           );
                         }}
                       >
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a href="/#">
-                              <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="featured__item__text">
                         <h6>
-                          <a
-                            onClick={() => {
-                              navigate(
-                                "/detail," +
-                                  c.idProduct +
-                                  "," +
-                                  c.typeProduct.idTypeProduct
-                              );
-                            }}
-                          >
+                          <a>
                             {c.nameProduct}
                           </a>
                         </h6>

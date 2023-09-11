@@ -767,6 +767,7 @@ background-color: rgb(25, 98, 145);
 	padding-top: 0px;
 }
 
+
 #dang-nhap-head:hover{
 	color: #67dd22;
 }
@@ -904,7 +905,7 @@ background-color: rgb(25, 98, 145);
 	margin-bottom: 30px;
 	padding-top: 18px;
 	position: relative;
-	margin-top: 7px;
+	margin-top: 15px;
 	margin-bottom: 0px;
 }
 
@@ -1330,6 +1331,18 @@ background-color: rgb(25, 98, 145);
 	font-weight: 700;
 }
 
+.logout-head{
+	color: #fff;
+	margin-left: 10px;
+	margin-right: 30px;
+	padding-right: 40px;
+	border-right: solid 2px #ffffff;
+}
+
+.logout-head:hover{
+	color: #31ed1c;
+}
+
 /*---------------------
   Form BLog
 -----------------------*/
@@ -1361,6 +1374,7 @@ background-color: rgb(25, 98, 145);
 	font-size: 46px;
 	color: #000;
 	font-weight: 700;
+	margin-top: 40px;
 }
 
 .breadcrumb__option a {

@@ -25,4 +25,8 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
     void deleteProduct(@Param("idUser") int idUser, @Param("idProduct") int idProduct);
 
     List<Cart> findAllByUser_IdUser(int idUser);
+
+    @Query(value = "SELECT count(*) FROM clean_fish_supermarket.cart \n" +
+            "where id_user = :idUser",nativeQuery = true)
+    Integer countTotalProductByUser(@Param("idUser") int idUser);
 }

@@ -45,7 +45,6 @@ public class CartController {
             cartService.addCart(cart);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
     }
 
     @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
@@ -92,18 +91,17 @@ public class CartController {
         return new ResponseEntity<>(cartService.getListCartByUser(user.getIdUser()),HttpStatus.OK);
     }
 
-//    @GetMapping("/{a}/{b}")
-//    public ResponseEntity<Integer> Test(@PathVariable int a, @PathVariable int b){
-//        Integer s = cartService.getQuantityProductByUser(a,b);
-//        if (s==null){
-//            return new ResponseEntity<>(s,HttpStatus.NOT_FOUND);
-//        }else {
-//            return new ResponseEntity<>(s,HttpStatus.OK);
-//        }
-//    }
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @GetMapping("/product-on-cart")
+    public ResponseEntity<Integer> countTotalProductByUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findUerByEmail(email).get();
+        Integer num = cartService.countTotalProductByUser(user.getIdUser());
+        if (num==null){
+            num=0;
+        }
+        return new ResponseEntity<>(num,HttpStatus.OK);
+    }
 
-//    @GetMapping("/{a}/{b}")
-//    public ResponseEntity<Integer> countProductByIdProduct(@PathVariable int a, @PathVariable int b){
-//        return new ResponseEntity<>(cartService.getQuantityProductByUser(a,b),HttpStatus.OK);
-//    }
 }

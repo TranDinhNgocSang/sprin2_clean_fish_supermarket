@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import{Link, useLocation, useNavigate} from "react-router-dom"
+import {totalProductOnCart} from "../service/cartService"
 
 function Header(){
   const[flag,setFlag]= useState();
-  const location = useLocation();
   const[search,setSearch]= useState("");
+  const[numProduct,setNumProduct] = useState(0);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleOnClickSearch = ()=>{
@@ -14,6 +16,24 @@ function Header(){
       navigate("/timkiem/"+searchUp)
     }
   }
+
+  const getToltalProductOnCart = async()=>{
+    const headers = {
+      'Authorization': `Bearer ${localStorage.getItem("token")}`,
+    };
+    try {
+      console.log(headers);
+      const data = await totalProductOnCart(headers);
+    setNumProduct(data);
+    } catch (error) {
+      setNumProduct(0);
+    }
+
+  }
+
+  useEffect(()=>{
+getToltalProductOnCart();
+  },[flag,location])
 
   const handleOnKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -75,24 +95,25 @@ function Header(){
                       {localStorage.getItem("userName")==null?
                       <Link to={"/login"} id="dang-nhap-head"><i className="fa fa-user" style={{color:"white" }}/>Đăng nhập</Link>
                       :
-                      <Link className="login-user" id="dang-nhap-head2"><i className="fa fa-user" style={{color:"white" }}/>
-                      <b>{localStorage.getItem("userName")}</b>
+                      <div className="login-user" id="dang-nhap-head2"><i className="fa fa-user" style={{color:"white" }}/>
+                      <b className="logout-head">{localStorage.getItem("userName")}</b>
                         <div className="login-user-list">
                         <div className="login-user-item"
                         onClick={()=>{
                           localStorage.removeItem("token");
                           localStorage.removeItem("userName");
                           localStorage.removeItem("role");
-                          setFlag(!flag)
+                          setFlag(!flag);
+                          navigate("/login");
                         }}
                         >Đăng xuất</div>
                         <div className="login-user-item">Lịch sử mua hàng</div> 
                        </div>
-                      </Link>
+                      </div>
                     }
                       
                     </div>  </li>
-                    <li><Link to={"/cart"}><i className="fa fa-shopping-bag" style={{color:"white"}} /> <span style={{color:"white", background : "red"}} >0</span></Link></li>
+                    <li><Link to={"/cart"}><i className="fa fa-shopping-bag" style={{color:"white"}} /> <span style={{color:"white", background : "red"}} >{numProduct}</span></Link></li>
                   </ul>
                 </div>
               </div>

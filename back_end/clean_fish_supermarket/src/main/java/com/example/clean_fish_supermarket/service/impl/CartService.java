@@ -32,4 +32,9 @@ public class CartService implements ICartService {
         return cartRepository.findAllByUser_IdUser(idUser);
     }
 
+    @Override
+    public Integer countTotalProductByUser(int idUser) {
+        return cartRepository.countTotalProductByUser(idUser);
+    }
+
 }

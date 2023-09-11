@@ -1,5 +1,44 @@
-
+import { useEffect, useState } from "react";
+import {listProductOnCart, deleteProductOnCart, addProductToCart, miniusProductToCart} from "../service/cartService"
+import numeral from "numeral";
 function ShoppingCart(){
+  const [products, setProducts]= useState([]);
+  const [flag, setFlag] = useState(false);
+
+  const headers = {
+    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+  };
+
+  const getListProduct = async()=>{
+    try {
+      const data = await listProductOnCart(headers);
+    setProducts(data)
+    } catch (error) {
+      
+    }
+  }
+
+  const handleOnClickDelete = async(idProduct)=>{
+await deleteProductOnCart(idProduct,headers);
+setFlag(!flag);
+  }
+
+  const handleButtonPlus = async(idProduct)=>{
+await addProductToCart(idProduct,headers);
+setFlag(!flag);
+  }
+
+  const handleButtonMinius = async(idProduct)=>{
+    await miniusProductToCart(idProduct,headers);
+    setFlag(!flag);
+      }
+
+  useEffect(()=>{
+getListProduct();
+  },[flag])
+
+  var toltalPrice = 0;
+
     return(
         <>
         <div>
@@ -38,7 +77,10 @@ function ShoppingCart(){
         </section>
         {/* Breadcrumb Section End */}
         {/* Shoping Cart Section Begin */}
-        <section className="shoping-cart spad">
+        {products.length==0?
+        <div style={{textAlign:"center"}}><img width={500} src ="img/empty-cart.png"></img></div>
+        :
+<section className="shoping-cart spad">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -47,103 +89,49 @@ function ShoppingCart(){
                     <thead>
                       <tr>
                         <th className="shoping__product">Sản Phẩm</th>
-                        <th>Đơn Giá</th>
+                        <th style={{width:"280px"}}>Đơn Giá (vnđ)</th>
                         <th>Số Lượng</th>
-                        <th>Thành Tiền</th>
+                        <th style={{width:"300px"}}>Thành Tiền (vnđ)</th>
                         <th />
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {products.map((c)=>{
+                        return(
+<tr>
                         <td className="shoping__cart__item">
-                          <img src="img/cart/cart-1.jpg" alt="" />
-                          <h5>Vegetable’s Package</h5>
+                          <img src={c.product.img} width={150} alt="" style={{marginRight:"100px"}}/>
+                          <h5>{c.product.nameProduct}</h5>
                         </td>
                         <td className="shoping__cart__price">
-                          $55.00
+                          {numeral(c.product.price).format("00,0 đ")}
                         </td>
                         <td className="shoping__cart__quantity">
                           <div className="quantity">
                          
                             <div className="pro-qty">
-                            <button className="nut-tang-giam-cart">
+                            <button className="nut-tang-giam-cart" onClick={()=>{handleButtonMinius(c.product.idProduct)}}>
                         <i class="fa-solid fa-minus"></i>
                         </button>
-                              <input type="text" defaultValue={1} />
-                              <button className="nut-tang-giam-cart">
+                              <input type="number" readOnly value={c.quantityProduct} />
+                              <button className="nut-tang-giam-cart" onClick={()=>{handleButtonPlus(c.product.idProduct)}}>
                         <i class="fa-solid fa-plus"></i>
                         </button>
                             </div>
-                            
+                            <span style={{display : "none"}}>
+                            {toltalPrice+=c.product.price*c.quantityProduct}
+                            </span>
                           </div>
                         </td>
-                        <td className="shoping__cart__total">
-                          $110.00
+                        <td className="shoping__cart__total"> 
+                        {numeral(c.product.price*c.quantityProduct).format("00,0 đ")}
                         </td>
-                        <td className="shoping__cart__item__close">
+                        <td className="shoping__cart__item__close" onClick={()=>{handleOnClickDelete(c.product.idProduct)}}>
                           <span className="icon_close" />
                         </td>
                       </tr>
-                      <tr>
-                        <td className="shoping__cart__item">
-                          <img src="img/cart/cart-2.jpg" alt="" />
-                          <h5>Fresh Garden Vegetable</h5>
-                        </td>
-                        <td className="shoping__cart__price">
-                          $39.00
-                        </td>
-                        <td className="shoping__cart__quantity">
-                          <div className="quantity">
-                         
-                            <div className="pro-qty">
-                            <button className="nut-tang-giam-cart">
-                        <i class="fa-solid fa-minus"></i>
-                        </button>
-                              <input type="text" defaultValue={1} />
-                              <button className="nut-tang-giam-cart">
-                        <i class="fa-solid fa-plus"></i>
-                        </button>
-                            </div>
-                            
-                          </div>
-                        </td>
-                        <td className="shoping__cart__total">
-                          $39.99
-                        </td>
-                        <td className="shoping__cart__item__close">
-                          <span className="icon_close" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="shoping__cart__item">
-                          <img src="img/cart/cart-3.jpg" alt="" />
-                          <h5>Organic Bananas</h5>
-                        </td>
-                        <td className="shoping__cart__price">
-                          $69.00
-                        </td>
-                        <td className="shoping__cart__quantity">
-                          <div className="quantity">
-                         
-                            <div className="pro-qty">
-                            <button className="nut-tang-giam-cart">
-                        <i class="fa-solid fa-minus"></i>
-                        </button>
-                              <input type="text" defaultValue={1} />
-                              <button className="nut-tang-giam-cart">
-                        <i class="fa-solid fa-plus"></i>
-                        </button>
-                            </div>
-                            
-                          </div>
-                        </td>
-                        <td className="shoping__cart__total">
-                          $69.99
-                        </td>
-                        <td className="shoping__cart__item__close">
-                          <span className="icon_close" />
-                        </td>
-                      </tr>
+                        )
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -166,9 +154,9 @@ function ShoppingCart(){
                 <div className="shoping__checkout">
                   <h5>Hóa Đơn</h5>
                   <ul>
-                    <li>Thành tiền<span>$454.98</span></li>
-                    <li>Phí giao hàng<span>$454.98</span></li>
-                    <li>Tổng Tiền <span style={{color:"black"}}>$454.98</span></li>
+                    <li>Thành tiền<span>{numeral(toltalPrice).format("00,0 đ")}đ</span></li>
+                    <li>Phí giao hàng<span>20,000đ</span></li>
+                    <li>Tổng Tiền <span style={{color:"black"}}>{numeral(toltalPrice+20000).format("00,0 đ")}đ</span></li>
                   </ul>
                   <a href="#" className="primary-btn">thanh toán</a>
                 </div>
@@ -176,6 +164,8 @@ function ShoppingCart(){
             </div>
           </div>
         </section>
+      }
+        
       
       </div>
         </>
