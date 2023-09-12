@@ -3,6 +3,13 @@ import { getLimitListProductByType } from "../service/productService";
 import { useEffect, useState } from "react";
 import numeral from "numeral";
 
+import {addProductToCart, totalProductOnCart} from "../service/cartService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
+
 function Home() {
   const navigate = useNavigate();
   const [caTuoi, setCaTuoi] = useState([]);
@@ -11,6 +18,7 @@ function Home() {
   const [cuaGhe, setcuaGhe] = useState([]);
   const [sashimi, setSashimi] = useState([]);
   const [dongLanh, setDongLanh] = useState([]);
+  const dispatch = useDispatch();
 
   const getListCaTuoi = async () => {
     const data = await getLimitListProductByType(1, 4);
@@ -41,6 +49,31 @@ function Home() {
     const data = await getLimitListProductByType(6, 4);
     setDongLanh(data);
   };
+
+
+  const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
+    const headers = {
+      'Authorization': `Bearer ${localStorage.getItem("token")}`,
+    };
+    try {
+      await addProductToCart(idProduct,headers);
+      toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
+        position: "top-right",
+        autoClose: 800,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+       const data = await totalProductOnCart(headers);
+       dispatch(updateCart(data));
+    } catch (error) {
+      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+    }
+
+  }
 
   useEffect(() => {
     getListCaTuoi();
@@ -277,7 +310,7 @@ function Home() {
                     <ul className="featured__item__pic__hover">
                       <li>
                         <a href="/#">
-                          <span class="add-to-cart">
+                          <span className="add-to-cart">
                             <b>add to cart</b>
                           </span>{" "}
                           <i className="fa fa-shopping-cart" />
@@ -428,6 +461,22 @@ function Home() {
                         backgroundSize: "cover",
                         backgroundPosition: "top center",
                       }}
+                      
+                    >
+                      <div className="featured__item__pic">
+                        <ul className="featured__item__pic__hover">
+                          <li>
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                              <span class="add-to-cart">
+                                <b>thêm vào giỏ</b>
+                              </span>{" "}
+                              <i className="fa fa-shopping-cart" />
+                            </a>
+                          </li>
+                        </ul>
+                        <ToastContainer></ToastContainer>
+                      </div>
+                      <div className="featured__item__text"
                       onClick={() => {
                         navigate(
                           "/detail," +
@@ -436,20 +485,7 @@ function Home() {
                             c.typeProduct.idTypeProduct
                         );
                       }}
-                    >
-                      <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a href="/#">
-                              <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="featured__item__text">
+                      >
                         <h6>
                           <a
                             onClick={() => {
@@ -515,7 +551,22 @@ function Home() {
                         backgroundSize: "cover",
                         backgroundPosition: "top center",
                       }}
-                      onClick={() => {
+              
+                    >
+                      <div className="featured__item__pic">
+                        <ul className="featured__item__pic__hover">
+                          <li>
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                              <span class="add-to-cart">
+                                <b>thêm vào giỏ</b>
+                              </span>{" "}
+                              <i className="fa fa-shopping-cart" />
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="featured__item__text"
+                       onClick={() => {
                         navigate(
                           "/detail," +
                             c.idProduct +
@@ -523,20 +574,7 @@ function Home() {
                             c.typeProduct.idTypeProduct
                         );
                       }}
-                    >
-                      <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a href="/#">
-                              <span class="add-to-cart">
-                                <b>thêm vào giỏt</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="featured__item__text">
+                      >
                         <h6>
                           <a
                             onClick={() => {
@@ -602,19 +640,12 @@ function Home() {
                         backgroundSize: "cover",
                         backgroundPosition: "top center",
                       }}
-                      onClick={() => {
-                        navigate(
-                          "/detail," +
-                            c.idProduct +
-                            "," +
-                            c.typeProduct.idTypeProduct
-                        );
-                      }}
+              
                     >
                       <div className="featured__item__pic">
                         <ul className="featured__item__pic__hover">
                           <li>
-                            <a href="/#">
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
                                 <b>thêm vào giỏ</b>
                               </span>{" "}
@@ -623,7 +654,15 @@ function Home() {
                           </li>
                         </ul>
                       </div>
-                      <div className="featured__item__text">
+                      <div className="featured__item__text"
+                      onClick={() => {
+                        navigate(
+                          "/detail," +
+                            c.idProduct +
+                            "," +
+                            c.typeProduct.idTypeProduct
+                        );
+                      }}>
                         <h6>
                           <a
                             onClick={() => {
@@ -689,19 +728,12 @@ function Home() {
                         backgroundSize: "cover",
                         backgroundPosition: "top center",
                       }}
-                      onClick={() => {
-                        navigate(
-                          "/detail," +
-                            c.idProduct +
-                            "," +
-                            c.typeProduct.idTypeProduct
-                        );
-                      }}
+                      
                     >
                       <div className="featured__item__pic">
                         <ul className="featured__item__pic__hover">
                           <li>
-                            <a href="/#">
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
                                 <b>thêm vào giỏt</b>
                               </span>{" "}
@@ -710,7 +742,16 @@ function Home() {
                           </li>
                         </ul>
                       </div>
-                      <div className="featured__item__text">
+                      <div className="featured__item__text"
+                       onClick={() => {
+                        navigate(
+                          "/detail," +
+                            c.idProduct +
+                            "," +
+                            c.typeProduct.idTypeProduct
+                        );
+                      }}
+                      >
                         <h6>
                           <a
                             onClick={() => {
@@ -776,19 +817,11 @@ function Home() {
                         backgroundSize: "cover",
                         backgroundPosition: "top center",
                       }}
-                      onClick={() => {
-                        navigate(
-                          "/detail," +
-                            c.idProduct +
-                            "," +
-                            c.typeProduct.idTypeProduct
-                        );
-                      }}
                     >
                       <div className="featured__item__pic">
                         <ul className="featured__item__pic__hover">
                           <li>
-                            <a href="/#">
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
                                 <b>thêm vào giỏ</b>
                               </span>{" "}
@@ -797,7 +830,16 @@ function Home() {
                           </li>
                         </ul>
                       </div>
-                      <div className="featured__item__text">
+                      <div className="featured__item__text"
+                       onClick={() => {
+                        navigate(
+                          "/detail," +
+                            c.idProduct +
+                            "," +
+                            c.typeProduct.idTypeProduct
+                        );
+                      }}
+                      >
                         <h6>
                           <a
                             onClick={() => {
@@ -863,19 +905,11 @@ function Home() {
                         backgroundSize: "cover",
                         backgroundPosition: "top center",
                       }}
-                      onClick={() => {
-                        navigate(
-                          "/detail," +
-                            c.idProduct +
-                            "," +
-                            c.typeProduct.idTypeProduct
-                        );
-                      }}
                     >
                       <div className="featured__item__pic">
                         <ul className="featured__item__pic__hover">
                           <li>
-                            <a href="/#">
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
                                 <b>thêm vào giỏ</b>
                               </span>{" "}
@@ -884,7 +918,16 @@ function Home() {
                           </li>
                         </ul>
                       </div>
-                      <div className="featured__item__text">
+                      <div className="featured__item__text"
+                       onClick={() => {
+                        navigate(
+                          "/detail," +
+                            c.idProduct +
+                            "," +
+                            c.typeProduct.idTypeProduct
+                        );
+                      }}
+                      >
                         <h6>
                           <a
                             onClick={() => {

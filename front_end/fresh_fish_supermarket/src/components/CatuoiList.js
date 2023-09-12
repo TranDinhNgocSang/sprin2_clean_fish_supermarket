@@ -5,12 +5,14 @@ import {
   getListProductBetweenByPrice,
   countSearchBetween,
 } from "../service/productService";
-import {addProductToCart} from "../service/cartService"
+import {addProductToCart, totalProductOnCart} from "../service/cartService";
 import { useEffect, useState } from "react";
 import numeral from "numeral";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
 
 function CatuoiList() {
   const [products, setProducts] = useState([]);
@@ -20,23 +22,23 @@ function CatuoiList() {
   const [textLoc, settextLoc] = useState("");
   const [textSapXep, setTextSapXep] = useState("");
   const location = useLocation();
-
-  console.log(localStorage);
+  const dispatch = useDispatch();
+  const idType = 1;
 
   const getListProduct = async () => {
-    const data = await getLimitListProductByType(1, limit);
+    const data = await getLimitListProductByType(idType, limit);
     setProducts(data);
   };
 
   const getQuantityProduct = async () => {
-    const data = await countProductByIdType(1);
+    const data = await countProductByIdType(idType);
     setQuantityProduct(data);
   };
 
   const handleButtonXemthem = async () => {
     const newLimit = limit + 8;
     setLimit(newLimit);
-    const data = await getLimitListProductByType(1, newLimit);
+    const data = await getLimitListProductByType(idType, newLimit);
     switch(textSapXep){
       case "Tăng dần":
         data.sort((a, b) => b.price - a.price);
@@ -49,6 +51,7 @@ function CatuoiList() {
           default :
           setProducts(data);
     }   
+
   };
 
   const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
@@ -67,6 +70,8 @@ function CatuoiList() {
         progress: undefined,
         theme: "light",
         });
+       const data = await totalProductOnCart(headers);
+       dispatch(updateCart(data));
     } catch (error) {
       Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
     }
@@ -226,7 +231,7 @@ function CatuoiList() {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-1" style={{zIndex : "-999 !important"}}>
+              <div className="col-lg-1" >
                 <div className="bo-loc">
                   <div class="dropdown">
                     <a
@@ -249,11 +254,11 @@ function CatuoiList() {
                           const data = await getListProductBetweenByPrice(
                             0,
                             100000,
-                            1,
+                            idType,
                             8
                           );
                           setProducts(data);
-                          getcountBetween(0,100000,1)
+                          getcountBetween(0,100000,idType)
                           settextLoc("Dưới 100,000đ");
                         }}
                       >
@@ -265,11 +270,11 @@ function CatuoiList() {
                           const data = await getListProductBetweenByPrice(
                             100000,
                             200000,
-                            1,
+                            idType,
                             8
                           );
                           setProducts(data);
-                          getcountBetween(100000,200000,1)
+                          getcountBetween(100000,200000,idType)
                           settextLoc("100,000đ - 200,000đ");
                         }}
                       >
@@ -281,11 +286,11 @@ function CatuoiList() {
                           const data = await getListProductBetweenByPrice(
                             200000,
                             300000,
-                            1,
+                            idType,
                             8
                           );
                           setProducts(data);
-                          getcountBetween(200000,300000,1)
+                          getcountBetween(200000,300000,idType)
                           settextLoc("200,000đ - 300,000đ");
                         }}
                       >
@@ -297,11 +302,11 @@ function CatuoiList() {
                           const data = await getListProductBetweenByPrice(
                             300000,
                             400000,
-                            1,
+                            idType,
                             8
                           );
                           setProducts(data);
-                          getcountBetween(300000,400000,1)
+                          getcountBetween(300000,400000,idType)
                           settextLoc("300,000đ - 400,000đ");
                         }}
                       >
@@ -313,11 +318,11 @@ function CatuoiList() {
                           const data = await getListProductBetweenByPrice(
                             400000,
                             9000000,
-                            1,
+                            idType,
                             8
                           );
                           setProducts(data);
-                          getcountBetween(400000,9000000,1)
+                          getcountBetween(400000,9000000,idType)
                           settextLoc("Trên 400,000đ");
                         }}
                       >

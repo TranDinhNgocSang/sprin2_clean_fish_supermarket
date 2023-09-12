@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import{Link, useLocation, useNavigate} from "react-router-dom"
-import {totalProductOnCart} from "../service/cartService"
+import{Link, useLocation, useNavigate} from "react-router-dom";
+import {totalProductOnCart} from "../service/cartService";
+import { useSelector } from "react-redux";
+import {getCart, getCount} from "../store/actions/cartActions";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
 
 function Header(){
   const[flag,setFlag]= useState();
@@ -8,6 +12,9 @@ function Header(){
   const[numProduct,setNumProduct] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
+  const numberOfProductsInCart = useSelector(getCart);
+  const dispatch = useDispatch();
+  const getCountCheck = useSelector(getCount);
 
   const handleOnClickSearch = ()=>{
     const searchUp = search;
@@ -22,7 +29,6 @@ function Header(){
       'Authorization': `Bearer ${localStorage.getItem("token")}`,
     };
     try {
-      console.log(headers);
       const data = await totalProductOnCart(headers);
     setNumProduct(data);
     } catch (error) {
@@ -113,7 +119,15 @@ getToltalProductOnCart();
                     }
                       
                     </div>  </li>
-                    <li><Link to={"/cart"}><i className="fa fa-shopping-bag" style={{color:"white"}} /> <span style={{color:"white", background : "red"}} >{numProduct}</span></Link></li>
+                    <li><Link to={"/cart"}><i className="fa fa-shopping-bag" style={{color:"white"}} />
+                    <span style={{color:"white", background : "red"}} >
+                      {getCountCheck==0?
+                      numProduct
+                      :
+                      numberOfProductsInCart
+                    }
+                      {/* {numProduct} */}
+                      </span></Link></li>
                   </ul>
                 </div>
               </div>

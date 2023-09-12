@@ -39,11 +39,12 @@ function Login(){
                       localStorage.setItem("userName",data.userName);
                       localStorage.setItem("role",data.role);
                       Swal.fire({
-                        title: "Đăng nhập thành công",
-                        text: "",
-                        icon: "success",
-                        button: "Aww yiss!",
-                      });
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Đăng nhập thành công',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
                       navigate("/")
                       } catch (error) {
                         Swal.fire({

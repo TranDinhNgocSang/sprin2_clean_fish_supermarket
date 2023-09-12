@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import {listProductOnCart, deleteProductOnCart, addProductToCart, miniusProductToCart} from "../service/cartService"
+import {listProductOnCart, deleteProductOnCart, addProductToCart, miniusProductToCart, totalProductOnCart} from "../service/cartService"
 import numeral from "numeral";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
+import Swal from "sweetalert2";
+
+
 function ShoppingCart(){
   const [products, setProducts]= useState([]);
   const [flag, setFlag] = useState(false);
+  const dispatch = useDispatch();
 
   const headers = {
     'Authorization': `Bearer ${localStorage.getItem("token")}`,
@@ -18,9 +24,29 @@ function ShoppingCart(){
     }
   }
 
-  const handleOnClickDelete = async(idProduct)=>{
-await deleteProductOnCart(idProduct,headers);
+  const handleOnClickDelete = async(idProduct,nameProduct)=>{
+    Swal.fire({
+      title: `Bạn muốn xóa ${nameProduct} khỏi giỏ hàng ?`,
+      text: "chức năng này không thể hoàn tác",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await deleteProductOnCart(idProduct,headers);
 setFlag(!flag);
+const data = await totalProductOnCart(headers);
+       dispatch(updateCart(data));
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+
   }
 
   const handleButtonPlus = async(idProduct)=>{
@@ -126,7 +152,7 @@ getListProduct();
                         <td className="shoping__cart__total"> 
                         {numeral(c.product.price*c.quantityProduct).format("00,0 đ")}
                         </td>
-                        <td className="shoping__cart__item__close" onClick={()=>{handleOnClickDelete(c.product.idProduct)}}>
+                        <td className="shoping__cart__item__close" onClick={()=>{handleOnClickDelete(c.product.idProduct,c.product.nameProduct)}}>
                           <span className="icon_close" />
                         </td>
                       </tr>
