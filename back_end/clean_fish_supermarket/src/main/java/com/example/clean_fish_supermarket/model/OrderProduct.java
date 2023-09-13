@@ -25,6 +25,21 @@ public class OrderProduct {
     public OrderProduct() {
     }
 
+    public OrderProduct(String address, String dayOder, String note, StatusOder statusOder, User user) {
+        this.address = address;
+        this.dayOder = dayOder;
+        this.note = note;
+        this.statusOder = statusOder;
+        this.user = user;
+    }
+
+    public OrderProduct(String address, String dayOder, String note, User user) {
+        this.address = address;
+        this.dayOder = dayOder;
+        this.note = note;
+        this.user = user;
+    }
+
     public OrderProduct(int idOder, String address, String dayOder, String deliveryDate, String note, StatusOder statusOder, User user) {
         this.idOder = idOder;
         this.address = address;

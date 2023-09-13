@@ -25,6 +25,12 @@ public class OrderDetail {
         this.product = product;
     }
 
+    public OrderDetail(int quantityProduct, OrderProduct oder, Product product) {
+        this.quantityProduct = quantityProduct;
+        this.oder = oder;
+        this.product = product;
+    }
+
     public int getIdOderDetail() {
         return idOderDetail;
     }

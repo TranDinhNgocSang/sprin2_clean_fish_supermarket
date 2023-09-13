@@ -51,7 +51,6 @@ function CatuoiList() {
           default :
           setProducts(data);
     }   
-
   };
 
   const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
@@ -75,7 +74,6 @@ function CatuoiList() {
     } catch (error) {
       Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
     }
-
   }
 
   useEffect(() => {
@@ -456,13 +454,13 @@ function CatuoiList() {
                           <li onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                             <a>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
                           </li>
                         </ul>
-                        <ToastContainer></ToastContainer>
+                       
                       </div>
                       <div className="featured__item__text"
                          onClick={() => {
@@ -499,7 +497,7 @@ function CatuoiList() {
             </div>
           }
 
-            
+<ToastContainer></ToastContainer>
           </div>
         </section>
       </div>

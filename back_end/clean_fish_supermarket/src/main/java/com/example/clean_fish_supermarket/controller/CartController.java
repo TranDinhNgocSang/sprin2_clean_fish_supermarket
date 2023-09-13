@@ -48,6 +48,25 @@ public class CartController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @PostMapping("/add/{idProduct}/{num}")
+    public ResponseEntity<?> addProductToCartDetail(@PathVariable int idProduct, @PathVariable int num) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findUerByEmail(email).get();
+        Product product = productService.getProductById(idProduct);
+        Cart oldCart = cartService.getQuantityProductByUser(user.getIdUser(), product.getIdProduct());
+        if (oldCart == null) {
+            Cart cart = new Cart(num, user, product);
+            cartService.addCart(cart);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            Cart cart = new Cart(oldCart.getIdCart(), oldCart.getQuantityProduct() + num, user, product);
+            cartService.addCart(cart);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
     @PostMapping("/minius/{idProduct}")
     public ResponseEntity<?> miniusProductOnCart(@PathVariable int idProduct) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

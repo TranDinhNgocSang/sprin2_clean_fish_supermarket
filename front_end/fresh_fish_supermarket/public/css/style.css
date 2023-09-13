@@ -224,6 +224,9 @@ ol {
 	padding: 0;
 	margin: 0;
 }
+a {
+	color: #fff !important;
+}
 
 /*---------------------
   Helper CSS
@@ -423,6 +426,7 @@ ol {
 .navbarSang {
     background-color: rgb(25, 98, 145);
     position: fixed;
+	height: 80px;
     width: 100%;
     z-index: 99;
 }
@@ -592,7 +596,7 @@ ol {
 }
 
 .header__logo {
-	padding: 15px 0;
+	padding: 0px;
 	margin-top: 10px;
 }
 
@@ -686,7 +690,7 @@ ol {
 	text-align: right;
 	padding: 24px 0;
 	display: flex;
-	padding-top: 30px;
+	padding-top: 11px;
 	padding-bottom: 0px;
 	
 }
@@ -839,7 +843,7 @@ ol {
 
 .hero {
 	padding-bottom: 50px;
-	padding-top: 100px;
+	padding-top: 80px;
 }
 
 .hero.hero-normal {
@@ -908,7 +912,7 @@ ol {
 	margin-bottom: 30px;
 	padding-top: 18px;
 	position: relative;
-	margin-top: 15px;
+	margin-top: 0px;
 	margin-bottom: 0px;
 }
 
@@ -1351,6 +1355,10 @@ ol {
 	z-index: 1 !important;
 }
 
+a:hover{
+	color: #ffffff !important;
+}
+
 /*---------------------
   Form BLog
 -----------------------*/
@@ -1382,7 +1390,7 @@ ol {
 	font-size: 46px;
 	color: #000;
 	font-weight: 700;
-	margin-top: 40px;
+	margin-top: 120px;
 }
 
 .breadcrumb__option a {
@@ -2008,6 +2016,7 @@ ol {
 
 .product__details__pic__item img {
 	min-width: 85%;
+	margin-top: 40px;
 }
 
 .product__details__pic__slider img {
@@ -2022,6 +2031,7 @@ ol {
 	color: #252525;
 	font-weight: 700;
 	margin-bottom: 16px;
+	margin-top: 50px;
 }
 
 .product__details__text .product__details__rating {
@@ -2384,7 +2394,8 @@ ol {
 
 .shoping__checkout {
 	background: #f5f5f5;
-	padding: 30px;
+	padding-left: 50px;
+	padding-right: 50px;
 	padding-top: 20px;
 	margin-top: 50px;
 }

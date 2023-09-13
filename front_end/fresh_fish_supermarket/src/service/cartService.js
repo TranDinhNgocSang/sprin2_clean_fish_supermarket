@@ -5,6 +5,11 @@ export const addProductToCart = async (idProduct,headers)=>{
     const res = await axios.post("http://localhost:8080/cart/add/"+idProduct,null,{headers});
 }
 
+export const addProductToCartDetail = async (idProduct,num,headers)=>{
+    const res = await axios.post(`http://localhost:8080/cart/add/${idProduct}/${num}`,null,{headers});
+}
+
+
 export const miniusProductToCart = async (idProduct,headers)=>{
     const res = await axios.post("http://localhost:8080/cart/minius/"+idProduct,null,{headers});
 }

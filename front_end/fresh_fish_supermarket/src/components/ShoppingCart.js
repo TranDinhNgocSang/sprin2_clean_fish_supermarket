@@ -10,6 +10,8 @@ function ShoppingCart(){
   const [products, setProducts]= useState([]);
   const [flag, setFlag] = useState(false);
   const dispatch = useDispatch();
+  const [address,setAddress] = useState("");
+  const [note, setNote] = useState("");
 
   const headers = {
     'Authorization': `Bearer ${localStorage.getItem("token")}`,
@@ -39,13 +41,37 @@ function ShoppingCart(){
 setFlag(!flag);
 const data = await totalProductOnCart(headers);
        dispatch(updateCart(data));
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+       Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: 'Xóa thành công',
+        showConfirmButton: false,
+        timer: 1500
+      })
       }
     })
+
+  }
+
+  const handleButtonThanhToan = async()=>{
+    if(address.length==0){
+      Swal.fire({
+        position: 'top-center',
+        icon: 'warning',
+        title: 'Bạn chưa điền địa chỉ',
+        showConfirmButton: false,
+        timer: 1500
+      });   
+    }
+    if(address.length>200){
+      Swal.fire({
+        position: 'top-center',
+        icon: 'warning',
+        title: 'Xin kiểm tra lại địa chỉ, địa chỉ quá dài',
+        showConfirmButton: false,
+        timer: 1500
+      });   
+    }
 
   }
 
@@ -167,12 +193,17 @@ getListProduct();
               <div className="col-lg-6">
                 <div className="shoping__continue">
                   <div className="shoping__discount">
-                    <h5>Nhập đỉa chỉ của bạn</h5>
-                      <textarea className="textarea-cart"  type="text" placeholder="11 Lê Đình Lý, Quận Hải Châu, Tp. Đà nẵng"/>
+                    <h5>Nhập đỉa chỉ của bạn <span style={{color:"red"}}>(*)</span></h5>
+                      <textarea className="textarea-cart"  type="text" placeholder="11 Lê Đình Lý, Quận Hải Châu, Tp. Đà nẵng"
+                      style={{paddingLeft: "15px"}}
+                      onChange={(e)=>{setAddress(e.target.value)}}
+                      />
                   </div>
                   <div className="shoping__discount">
                     <h5>Ghi chú</h5>
-                      <textarea className="textarea-cart2"  type="text" placeholder="Note..."/>
+                      <textarea className="textarea-cart2"  type="text" placeholder="Note..."
+                      onChange={(e)=>{setNote(e.target.value)}}
+                      />
                   </div>
                 </div>
               </div>
@@ -184,7 +215,11 @@ getListProduct();
                     <li>Phí giao hàng<span>20,000đ</span></li>
                     <li>Tổng Tiền <span style={{color:"black"}}>{numeral(toltalPrice+20000).format("00,0 đ")}đ</span></li>
                   </ul>
-                  <a href="#" className="primary-btn">thanh toán</a>
+                  <a className="primary-btn"
+                  onClick={()=>{
+                    handleButtonThanhToan();
+                  }}
+                  >thanh toán</a>
                 </div>
               </div>
             </div>

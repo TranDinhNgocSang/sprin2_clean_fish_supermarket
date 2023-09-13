@@ -2,13 +2,20 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {getProductById, getLimitListProductByType} from "../service/productService"
 import numeral from "numeral";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
+import { ToastContainer, toast } from 'react-toastify';
+import {addProductToCart, totalProductOnCart, addProductToCartDetail} from "../service/cartService";
 
 function DetaiProduct (){
   const {data} = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [product,setProduct] = useState();
   const [listProduct,setListProduct] = useState([]);
-  const [flag,setFlag]= useState(false);
+  // const [flag,setFlag]= useState(false);
+  const dispatch = useDispatch();
+  const [count,setCount] = useState(1);
 
   const arrData = data.split(",");
   const idProduct = arrData[1];
@@ -31,7 +38,51 @@ const data = await getLimitListProductByType(idType,4)
 setListProduct(data);
   }
 
-  console.log(product);
+  const headers = {
+    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+  };
+
+  const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
+ 
+    try {
+      await addProductToCart(idProduct,headers);
+      toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
+        position: "top-right",
+        autoClose: 800,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+       const data = await totalProductOnCart(headers);
+       dispatch(updateCart(data));
+    } catch (error) {
+      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+    }
+  }
+
+  const handleOnClickAddToCartt = async (idProduct,nameProduct) =>{
+ 
+    try {
+      await addProductToCartDetail(idProduct,count,headers);
+      toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
+        position: "top-right",
+        autoClose: 800,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+       const data = await totalProductOnCart(headers);
+       dispatch(updateCart(data));
+    } catch (error) {
+      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+    }
+  }
 
   useEffect(()=>{
     getProduct();
@@ -85,17 +136,31 @@ setListProduct(data);
                   <p className="detail-text">KHỐI LƯỢNG: 1KG </p>
                     <div className="quantity">                  
                       <div className="pro-qty">
-                        <button className="nut-tang-giam">
+                        <button className="nut-tang-giam" 
+                        onClick={()=>{
+                          if(count>1){
+                            setCount(count-1)
+                          }
+                          }}>
                         <i class="fa-solid fa-minus"></i>
                         </button>
-                        <input type="text" defaultValue={1} />
-                        <button className="nut-tang-giam">
+                        <input type="number" value={count} min={1} readOnly/>
+                        <button className="nut-tang-giam"
+                        onClick={()=>{
+                          if(count<50){
+                            setCount(count+1)
+                          }
+                          }}
+                          >
+                        
                         <i class="fa-solid fa-plus"></i>
                         </button>
                       </div>
                     </div>
                   </div>
-                  <button id="add-detail"><b>ADD TO CARD</b></button>
+                  <button id="add-detail"
+                  onClick={()=>handleOnClickAddToCartt(product.idProduct,product.nameProduct)}
+                  ><b>ADD TO CARD</b></button>
                   <ul>
                     <li><i className="fa-solid fa-truck"></i>&nbsp;&nbsp;&nbsp;&nbsp;Giao hàng nhanh trong 2 giờ, nội thành TP.Đà Nẵng.</li>
                     <li><i className="fa-solid fa-box"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đổi trả với bất kỳ lý do gì liên quan đến sản phẩm.</li>
@@ -129,14 +194,16 @@ setListProduct(data);
 	                backgroundSize: "cover",
 	                backgroundPosition: "top center",
                 }}
-                onClick={()=>{handelOnClick(c.idProduct)}}
+                
                 >
                   <div className="featured__item__pic">
-                    <ul className="featured__item__pic__hover">
-                      <li><a href="/#"><span class="add-to-cart"><b>thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
+                    <ul className="featured__item__pic__hover"
+                    onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}
+                    >
+                      <li><a><span class="add-to-cart"><b>Thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
                     </ul>
                   </div>
-                  <div className="featured__item__text">
+                  <div className="featured__item__text" onClick={()=>{handelOnClick(c.idProduct)}}>
                     <h6><a onClick={()=>{handelOnClick(c.idProduct)}}>{c.nameProduct}</a></h6>
                     <h5>{numeral(c.price).format('00,0 đ')} vnđ</h5>
                   </div>
@@ -145,6 +212,7 @@ setListProduct(data);
                 )
               })}
             </div>
+            <ToastContainer></ToastContainer>
           </div>
         </section>
       </div>

@@ -84,6 +84,11 @@ function Home() {
     getListDongLanh();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
   return (
     <>
       <div>
@@ -468,7 +473,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
@@ -558,7 +563,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
@@ -647,7 +652,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
@@ -735,7 +740,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏt</b>
+                                <b>Thêm vào giỏt</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
@@ -823,7 +828,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
@@ -911,7 +916,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>thêm vào giỏ</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
