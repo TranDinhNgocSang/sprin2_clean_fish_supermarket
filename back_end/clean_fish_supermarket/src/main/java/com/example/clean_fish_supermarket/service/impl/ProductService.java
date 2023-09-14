@@ -47,5 +47,10 @@ public class ProductService implements IProductService {
         return productRepository.countProductBetweenByPrice(begin,end,idType) ;
     }
 
+    @Override
+    public void updateQuantityProductById(int quantity, int idProduct) {
+        productRepository.updateQuantityProductById(quantity,idProduct);
+    }
+
 
 }

@@ -15,4 +15,6 @@ public interface ICartService {
     List<Cart> getListCartByUser(int idUser);
 
     Integer countTotalProductByUser(int idUser);
+
+    void deleteCartByUser ( int idUser);
 }

@@ -5,6 +5,7 @@ import com.example.clean_fish_supermarket.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,11 @@ public class OrderController {
     private ICartService cartService;
     @Autowired
     private IOrderDetailService orderDetailService;
+    @Autowired
+    private IProductService productService;
 
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
     @PostMapping("/{address}/{note}")
     public ResponseEntity<?> addOrder(@PathVariable String address, @PathVariable String note){
         try {
@@ -38,12 +43,14 @@ public class OrderController {
             Date date = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
             String formattedDate = dateFormat.format(date);
+            List<Cart> list = cartService.getListCartByUser(user.getIdUser());
             OrderProduct orderProduct = new OrderProduct(address, formattedDate, note, statusOder, user);
             OrderProduct orderProduct1 = orderProductService.addOder(orderProduct);
-            List<Cart> list = cartService.getListCartByUser(user.getIdUser());
             for (int i = 0; i < list.size(); i++) {
-                OrderDetail orderDetail = new OrderDetail(list.get(i).getQuantityProduct(), orderProduct1, list.get(i).getProduct());
+                OrderDetail orderDetail = new OrderDetail(list.get(i).getQuantityProduct(), orderProduct1,
+                        list.get(i).getProduct());
                 orderDetailService.addOrderDetail(orderDetail);
+//                productService.updateQuantityProductById();
             }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

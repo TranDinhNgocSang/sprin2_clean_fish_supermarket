@@ -37,4 +37,9 @@ public class CartService implements ICartService {
         return cartRepository.countTotalProductByUser(idUser);
     }
 
+    @Override
+    public void deleteCartByUser(int idUser) {
+        cartRepository.deleteCartByUser(idUser);
+    }
+
 }

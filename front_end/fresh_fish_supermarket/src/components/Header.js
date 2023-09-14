@@ -127,7 +127,8 @@ getToltalProductOnCart();
                       numberOfProductsInCart
                     }
                       {/* {numProduct} */}
-                      </span></Link></li>
+                      </span>
+                      </Link></li>
                   </ul>
                 </div>
               </div>

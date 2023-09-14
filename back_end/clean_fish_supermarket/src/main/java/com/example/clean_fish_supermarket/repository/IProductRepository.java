@@ -2,9 +2,11 @@ package com.example.clean_fish_supermarket.repository;
 
 import com.example.clean_fish_supermarket.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -49,4 +51,8 @@ public interface IProductRepository extends JpaRepository<Product,Integer> {
             "and id_type_product = :idType",nativeQuery = true)
     int countProductBetweenByPrice(@Param("begin") int begin, @Param("end") int end, @Param("idType") int idType);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE product SET quantity = :quantity WHERE id_product = :idProduct", nativeQuery = true)
+    void updateQuantityProductById(@Param("quantity") int quantity, @Param("idProduct") int idProduct);
 }

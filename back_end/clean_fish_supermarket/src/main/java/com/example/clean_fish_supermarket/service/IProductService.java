@@ -20,4 +20,6 @@ public interface IProductService {
 
     int countProductBetweenByPrice(int begin, int end, int idType);
 
+    void updateQuantityProductById(int quantity, int idProduct);
+
 }

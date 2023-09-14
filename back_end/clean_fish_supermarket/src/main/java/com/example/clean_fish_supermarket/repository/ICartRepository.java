@@ -29,4 +29,10 @@ public interface ICartRepository extends JpaRepository<Cart, Integer> {
     @Query(value = "SELECT count(*) FROM clean_fish_supermarket.cart \n" +
             "where id_user = :idUser",nativeQuery = true)
     Integer countTotalProductByUser(@Param("idUser") int idUser);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM `clean_fish_supermarket`.`cart` WHERE id_user = :idUser",nativeQuery = true)
+    void deleteCartByUser (@Param("idUser") int idUser);
+
 }
