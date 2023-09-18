@@ -56,12 +56,30 @@ body {
 	
 }
 
+.text-loc{
+	border: solid 1px #000;
+	width: 270px;
+	text-align: center;
+	border-radius: 15px;
+}
+
 .loc-gia{
 	color: #000 !important;
 	background-color: #fff !important;
-	width: 120px !important;
+	width: 160px !important;
 	border: solid 1px #000;
 	border-radius: 5px;
+}
+
+.sap-xep{
+	min-width: 160px !important;
+	/* max-width: */
+}
+
+.khongsp{
+	text-align: center;
+	font-weight: bold;
+	font-size: 2rem;
 }
 
 .loc-gia:hover{
@@ -70,9 +88,15 @@ body {
 }
 
 .boloc{
-	border-right: solid 2px #000;
-	margin-bottom: 50px;
+	border-right: solid 2px #989090;
+	margin-bottom: 30px;
 	
+}
+
+.dau-x:hover{
+	color: rgb(25, 98, 145);
+	font-weight: bold;
+	cursor: pointer;
 }
 
 #add-detail{
@@ -195,11 +219,28 @@ a:focus {
 	color: #ffffff;
 }
 
+.scroll-up{
+position: fixed;
+bottom: 50px;
+	right: 50px;
+	height: 60px;
+width: 60px;
+font-size: 30px;
+border-radius: 50px;
+background-color: rgb(25, 98, 145);
+color: #fff;
+border: none;
+}
+
+
 ul,
 ol {
 	padding: 0;
 	margin: 0;
 }
+/* a {
+	color: #fff !important;
+} */
 
 /*---------------------
   Helper CSS
@@ -397,8 +438,11 @@ ol {
 }
 
 .navbarSang {
-background-color: rgb(25, 98, 145);
-/* position: fixed; */
+    background-color: rgb(25, 98, 145);
+    position: fixed;
+	height: 80px;
+    width: 100%;
+    z-index: 99;
 }
 /*---------------------
   Header
@@ -566,7 +610,7 @@ background-color: rgb(25, 98, 145);
 }
 
 .header__logo {
-	padding: 15px 0;
+	padding: 0px;
 	margin-top: 10px;
 }
 
@@ -660,7 +704,7 @@ background-color: rgb(25, 98, 145);
 	text-align: right;
 	padding: 24px 0;
 	display: flex;
-	padding-top: 30px;
+	padding-top: 11px;
 	padding-bottom: 0px;
 	
 }
@@ -743,13 +787,14 @@ background-color: rgb(25, 98, 145);
 	padding-top: 0px;
 }
 
+
 #dang-nhap-head:hover{
 	color: #67dd22;
 }
 
 .header__cart ul {
 	display: inline-block;
-	margin-right: 25px;
+	margin-right: 0px;
 }
 
 .header__cart ul li {
@@ -812,6 +857,7 @@ background-color: rgb(25, 98, 145);
 
 .hero {
 	padding-bottom: 50px;
+	padding-top: 80px;
 }
 
 .hero.hero-normal {
@@ -880,7 +926,7 @@ background-color: rgb(25, 98, 145);
 	margin-bottom: 30px;
 	padding-top: 18px;
 	position: relative;
-	margin-top: 7px;
+	margin-top: 0px;
 	margin-bottom: 0px;
 }
 
@@ -1121,6 +1167,7 @@ background-color: rgb(25, 98, 145);
 
 .featured__item:hover .featured__item__pic .featured__item__pic__hover {
 	bottom: 20px;
+	cursor: pointer;
 }
 
 .dropdown-item:focus, .dropdown-item:hover {
@@ -1306,6 +1353,26 @@ background-color: rgb(25, 98, 145);
 	font-weight: 700;
 }
 
+.logout-head{
+	color: #fff;
+	margin-left: 10px;
+	margin-right: 30px;
+	padding-right: 40px;
+	border-right: solid 2px #ffffff;
+}
+
+.logout-head:hover{
+	color: #31ed1c;
+}
+
+.dropdown-toggle {
+	z-index: 1 !important;
+}
+
+a:hover{
+	color: #ffffff !important;
+}
+
 /*---------------------
   Form BLog
 -----------------------*/
@@ -1337,6 +1404,7 @@ background-color: rgb(25, 98, 145);
 	font-size: 46px;
 	color: #000;
 	font-weight: 700;
+	margin-top: 120px;
 }
 
 .breadcrumb__option a {
@@ -1962,6 +2030,7 @@ background-color: rgb(25, 98, 145);
 
 .product__details__pic__item img {
 	min-width: 85%;
+	margin-top: 40px;
 }
 
 .product__details__pic__slider img {
@@ -1976,6 +2045,7 @@ background-color: rgb(25, 98, 145);
 	color: #252525;
 	font-weight: 700;
 	margin-bottom: 16px;
+	margin-top: 50px;
 }
 
 .product__details__text .product__details__rating {
@@ -2338,7 +2408,8 @@ background-color: rgb(25, 98, 145);
 
 .shoping__checkout {
 	background: #f5f5f5;
-	padding: 30px;
+	padding-left: 50px;
+	padding-right: 50px;
 	padding-top: 20px;
 	margin-top: 50px;
 }

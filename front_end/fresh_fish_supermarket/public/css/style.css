@@ -219,6 +219,20 @@ a:focus {
 	color: #ffffff;
 }
 
+.scroll-up{
+position: fixed;
+bottom: 50px;
+	right: 50px;
+	height: 60px;
+width: 60px;
+font-size: 30px;
+border-radius: 50px;
+background-color: rgb(25, 98, 145);
+color: #fff;
+border: none;
+}
+
+
 ul,
 ol {
 	padding: 0;
@@ -686,6 +700,34 @@ ol {
 	display: block;
 }
 
+
+.return{
+	padding-top: 120px;
+	text-align: center;
+	
+}
+
+.return-conten{
+	text-align: center;
+	margin: 0px;
+	width: 550px;
+	margin-left: 33%;
+	
+}
+
+.button-his{
+	border-radius: 10px;
+	color: rgb(25, 98, 145);
+	/* font-weight: bold; */
+	background-color: #fff;
+	border: solid 1px  rgb(25, 98, 145) ;
+}
+
+.button-his:hover{
+	color: #fff;
+	background-color: rgb(25, 98, 145) ;
+}
+
 .header__cart {
 	text-align: right;
 	padding: 24px 0;
@@ -693,6 +735,29 @@ ol {
 	padding-top: 11px;
 	padding-bottom: 0px;
 	
+}
+
+.modall{
+	position: fixed;
+	top: 0;
+	height: 100vh;
+	width: 100vw;
+	background: rgba(0,0,0,0.7);
+	z-index: 9;
+	
+}
+
+
+.modal-inner{
+	width: 500px;
+	position: relative;
+	top: 30%;
+	margin: auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	justify-content: space-between;
+	text-align: center;
 }
 
 .menu-trang-chu-hr{
@@ -780,7 +845,7 @@ ol {
 
 .header__cart ul {
 	display: inline-block;
-	margin-right: 25px;
+	margin-right: 0px;
 }
 
 .header__cart ul li {

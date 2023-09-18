@@ -1,18 +1,31 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   countSearch,
-  searchByName
+  searchByName,
+  deleteProductById
 } from "../service/productService";
+import {addProductToCart, totalProductOnCart} from "../service/cartService";
 import { useEffect, useState } from "react";
 import numeral from "numeral";
-import {} from "../App.css"
+import {} from "../App.css";
+import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
+import Swal from "sweetalert2";
 
 function TimKiem() {
   const [products, setProducts] = useState([]);
   const [quantityProduct, setQuantityProduct] = useState(0);
   const navigate = useNavigate();
   const [limit, setLimit] = useState(8);
+  const [flag, setFlag] = useState(false);
+
   const {name} = useParams();
+  const dispatch = useDispatch();
+
+  const headers = {
+    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+  };
 
   const getListProduct = async () => {
     const data = await searchByName(name, limit);
@@ -24,6 +37,32 @@ function TimKiem() {
     setQuantityProduct(data);
   };
 
+  const handleOnclickDelete = async (idProduct,nameProduct)=>{
+    Swal.fire({
+      title: `Bạn muốn xóa ${nameProduct}?`,
+      text: "chức năng này không thể hoàn tác",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteProductById(idProduct,headers)
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Xóa thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setFlag(!flag)
+      }
+      
+    });
+
+  }
+
   const handleButtonXemthem = async () => {
     const newLimit = limit + 8;
     await getListProduct(newLimit);
@@ -33,11 +72,35 @@ function TimKiem() {
   useEffect(() => {
     getListProduct();
     getQuantityProduct();
-  }, [limit,name]);
+  }, [limit,name,flag]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
+    const headers = {
+      'Authorization': `Bearer ${localStorage.getItem("token")}`,
+    };
+    try {
+      await addProductToCart(idProduct,headers);
+      toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
+        position: "top-right",
+        autoClose: 800,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+       const data = await totalProductOnCart(headers);
+       dispatch(updateCart(data));
+    } catch (error) {
+      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+    }
+
+  }
 
   return (
     <>
@@ -73,7 +136,7 @@ function TimKiem() {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
-        <section className="featured spad featuredd">
+        <section className="featured spad featuredd" style={{paddingTop: "100px"}}>
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -96,7 +159,7 @@ function TimKiem() {
 <div className="row featured__filter">
               {products.map((c) => {
                 return (
-                  <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
+                  <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables" key={c.idProduct}>
                     <div className="featured__item">
                       {localStorage.getItem("role") === "ROLE_ADMIN" ? (
                         <div class="dropdown">
@@ -111,7 +174,7 @@ function TimKiem() {
                             class="dropdown-menu"
                             aria-labelledby="dropdownMenuButton1"
                           >
-                            <li>
+                            <li onClick={()=>handleOnclickDelete(c.idProduct,c.nameProduct)}>
                               <a class="dropdown-item" href="#">
                                 Xóa
                               </a>
@@ -135,18 +198,10 @@ function TimKiem() {
                           backgroundSize: "cover",
                           backgroundPosition: "top center",
                         }}
-                        onClick={() => {
-                          navigate(
-                            "/detail," +
-                              c.idProduct +
-                              "," +
-                              c.typeProduct.idTypeProduct
-                          );
-                        }}
                       >
                         <ul className="featured__item__pic__hover">
                           <li>
-                            <a href="/#">
+                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
                                 <b>thêm vào giỏ</b>
                               </span>{" "}
@@ -155,18 +210,18 @@ function TimKiem() {
                           </li>
                         </ul>
                       </div>
-                      <div className="featured__item__text">
+                      <div className="featured__item__text"
+                      onClick={() => {
+                        navigate(
+                          "/detail," +
+                            c.idProduct +
+                            "," +
+                            c.typeProduct.idTypeProduct
+                        );
+                      }}
+                      >
                         <h6>
-                          <a
-                            onClick={() => {
-                              navigate(
-                                "/detail," +
-                                  c.idProduct +
-                                  "," +
-                                  c.typeProduct.idTypeProduct
-                              );
-                            }}
-                          >
+                          <a>
                             {c.nameProduct}
                           </a>
                         </h6>
@@ -190,6 +245,7 @@ function TimKiem() {
             
           </div>
         </section>
+        <ToastContainer></ToastContainer>
       </div>
     </>
   );

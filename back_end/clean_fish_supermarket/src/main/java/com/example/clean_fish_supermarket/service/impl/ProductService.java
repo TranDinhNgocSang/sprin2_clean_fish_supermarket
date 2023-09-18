@@ -52,5 +52,15 @@ public class ProductService implements IProductService {
         productRepository.updateQuantityProductById(quantity,idProduct);
     }
 
+    @Override
+    public List<Product> bestSellingProduct() {
+        return productRepository.bestSellingProduct();
+    }
+
+    @Override
+    public void deleteProductByid(int idProduct) {
+        productRepository.deleteProductByid(idProduct);
+    }
+
 
 }

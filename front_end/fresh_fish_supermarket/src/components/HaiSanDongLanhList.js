@@ -4,6 +4,7 @@ import {
   countProductByIdType,
   getListProductBetweenByPrice,
   countSearchBetween,
+  deleteProductById
 } from "../service/productService";
 import {addProductToCart, totalProductOnCart} from "../service/cartService";
 import { useEffect, useState } from "react";
@@ -21,9 +22,15 @@ function HaiSanDongLanhList() {
   const [limit, setLimit] = useState(8);
   const [textLoc, settextLoc] = useState("");
   const [textSapXep, setTextSapXep] = useState("");
+  const [flag, setFlag] = useState(false);
+
   const location = useLocation();
   const dispatch = useDispatch();
   const idType = 6;
+
+  const headers = {
+    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+  };
 
   const getListProduct = async () => {
     const data = await getLimitListProductByType(idType, limit);
@@ -34,6 +41,32 @@ function HaiSanDongLanhList() {
     const data = await countProductByIdType(idType);
     setQuantityProduct(data);
   };
+
+  const handleOnclickDelete = async (idProduct,nameProduct)=>{
+    Swal.fire({
+      title: `Bạn muốn xóa ${nameProduct}?`,
+      text: "chức năng này không thể hoàn tác",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteProductById(idProduct,headers)
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Xóa thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setFlag(!flag)
+      }
+      
+    });
+
+  }
 
   const handleButtonXemthem = async () => {
     const newLimit = limit + 8;
@@ -81,7 +114,7 @@ function HaiSanDongLanhList() {
   useEffect(() => {
     getListProduct();
     getQuantityProduct();
-  }, []);
+  }, [flag]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -369,7 +402,7 @@ function HaiSanDongLanhList() {
                             class="dropdown-menu"
                             aria-labelledby="dropdownMenuButton1"
                           >
-                            <li>
+                            <li onClick={()=>handleOnclickDelete(c.idProduct,c.nameProduct)}>
                               <a class="dropdown-item" href="#">
                                 Xóa
                               </a>

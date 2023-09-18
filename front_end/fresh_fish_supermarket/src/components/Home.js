@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getLimitListProductByType } from "../service/productService";
+import { getLimitListProductByType , getListProductBestSelling } from "../service/productService";
 import { useEffect, useState } from "react";
 import numeral from "numeral";
 
@@ -18,7 +18,31 @@ function Home() {
   const [cuaGhe, setcuaGhe] = useState([]);
   const [sashimi, setSashimi] = useState([]);
   const [dongLanh, setDongLanh] = useState([]);
+  const [productsBestSelling, setProductsBestSelling] = useState([]);
   const dispatch = useDispatch();
+  const [backToTop, setBackToTop] = useState(false);
+
+
+    window.addEventListener("scroll",()=>{
+      if(window.scrollY >500){
+        setBackToTop(true);
+      }else{
+        setBackToTop(false);
+      }
+    })
+    
+
+  const scrollup = () =>{
+    window.scrollTo({
+      top:0,
+      behavior: "smooth"
+    })
+  }
+
+  const getProductsBestSelling = async ()=>{
+    const data = await getListProductBestSelling();
+    setProductsBestSelling(data);
+  }
 
   const getListCaTuoi = async () => {
     const data = await getLimitListProductByType(1, 4);
@@ -76,6 +100,7 @@ function Home() {
   }
 
   useEffect(() => {
+    getProductsBestSelling();
     getListCaTuoi();
     getListTomMuc();
     getListOcNgheu();
@@ -91,6 +116,13 @@ function Home() {
 
   return (
     <>
+    {backToTop && (
+      <button className="scroll-up"
+      onClick={scrollup}
+      >
+<i class="fa-solid fa-chevron-up"></i>
+      </button>
+    )}
       <div>
         <meta charSet="UTF-8" />
         <meta name="description" content="Ogani Template" />
@@ -222,215 +254,51 @@ function Home() {
               </div>
             </div>
             <div className="row featured__filter">
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                <div
-                  className="featured__item"
-                  style={{
-                    backgroundImage: "url('img/product/dong-lanh/bovien.jpg')",
-                    height: "270px",
-                    backgroundepReat: "no-repeat",
-                    backgroundSize: "cover",
-                    backgroundPosition: "top center",
-                  }}
-                  onClick={() => {
-                    navigate("/detail");
-                  }}
-                >
-                  <div className="featured__item__pic">
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span class="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
+              {productsBestSelling.map((c)=>{
+                return(
+<div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood" key={c.idProduct}>
                 <div className="featured__item">
                   <div
                     className="featured__item__pic set-bg"
                     data-setbg="img/featured/feature-2.jpg"
+                    style={{
+                      backgroundImage: `url('${c.img}')`,
+                      height: "270px",
+                      backgroundepReat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "top center",
+                    }}
                   >
                     <ul className="featured__item__pic__hover">
                       <li>
-                        <a href="/#">
+                        <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                           <span class="add-to-cart">
-                            <b>add to cart</b>
+                            <b>Thêm vào giỏ</b>
                           </span>{" "}
                           <i className="fa fa-shopping-cart" />
                         </a>
                       </li>
                     </ul>
                   </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                <div className="featured__item">
-                  <div
-                    className="featured__item__pic set-bg"
-                    data-setbg="img/featured/feature-3.jpg"
+                  <div className="featured__item__text"
+                       onClick={() => {
+                        navigate(
+                          "/detail," +
+                            c.idProduct +
+                            "," +
+                            c.typeProduct.idTypeProduct
+                        );
+                      }}
                   >
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span class="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
                     <h6>
-                      <a href="/#">Crab Pool Security</a>
+                      <a >{c.nameProduct}</a>
                     </h6>
-                    <h5>$30.00</h5>
+                    <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                <div className="featured__item">
-                  <div
-                    className="featured__item__pic set-bg"
-                    data-setbg="img/featured/feature-4.jpg"
-                  >
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span className="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div
-                    className="featured__item__pic set-bg"
-                    data-setbg="img/featured/feature-5.jpg"
-                  >
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span class="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                <div className="featured__item">
-                  <div
-                    className="featured__item__pic set-bg"
-                    data-setbg="img/featured/feature-6.jpg"
-                  >
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span class="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                <div className="featured__item">
-                  <div
-                    className="featured__item__pic set-bg"
-                    data-setbg="img/featured/feature-7.jpg"
-                  >
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span class="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                <div className="featured__item">
-                  <div
-                    className="featured__item__pic set-bg"
-                    data-setbg="img/featured/feature-8.jpg"
-                  >
-                    <ul className="featured__item__pic__hover">
-                      <li>
-                        <a href="/#">
-                          <span class="add-to-cart">
-                            <b>add to cart</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="featured__item__text">
-                    <h6>
-                      <a href="/#">Crab Pool Security</a>
-                    </h6>
-                    <h5>$30.00</h5>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -505,7 +373,7 @@ function Home() {
                             {c.nameProduct}
                           </a>
                         </h6>
-                        <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                        <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                       </div>
                     </div>
                   </div>
@@ -594,7 +462,7 @@ function Home() {
                             {c.nameProduct}
                           </a>
                         </h6>
-                        <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                        <h5>{numeral(c.price).format("00,0 đ")} vnđ/kg</h5>
                       </div>
                     </div>
                   </div>
@@ -682,7 +550,7 @@ function Home() {
                             {c.nameProduct}
                           </a>
                         </h6>
-                        <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                        <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                       </div>
                     </div>
                   </div>
@@ -740,7 +608,7 @@ function Home() {
                           <li>
                             <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
                               <span class="add-to-cart">
-                                <b>Thêm vào giỏt</b>
+                                <b>Thêm vào giỏ</b>
                               </span>{" "}
                               <i className="fa fa-shopping-cart" />
                             </a>
@@ -771,7 +639,7 @@ function Home() {
                             {c.nameProduct}
                           </a>
                         </h6>
-                        <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                        <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                       </div>
                     </div>
                   </div>

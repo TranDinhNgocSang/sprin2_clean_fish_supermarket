@@ -30,7 +30,17 @@ export const countSearchBetween = async(begin,end,idType)=>{
 return res.data;
 }
 
-export const getListProductBetweenByPrice= async(begin,end,idType,limit)=>{
+export const getListProductBetweenByPrice = async(begin,end,idType,limit)=>{
    const res = await axios.get(`http://localhost:8080/product/between/${begin}/${end}/${idType}/${limit}`)
+return res.data;
+}
+
+export const getListProductBestSelling = async()=>{
+   const res = await axios.get(`http://localhost:8080/product/best-selling`)
+return res.data;
+}
+
+export const deleteProductById = async(idProduct,headers)=>{
+   const res = await axios.delete(`http://localhost:8080/product/${idProduct}`,{headers})
 return res.data;
 }

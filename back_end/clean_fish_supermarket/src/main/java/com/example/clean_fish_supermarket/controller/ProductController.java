@@ -20,45 +20,50 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping("/get/{idType}/{limit}")
-    public ResponseEntity<List<Product>> getLimitListProductByType(@PathVariable int idType,@PathVariable int limit){
-        return new ResponseEntity<>(productService.getLimitProductByType(idType,limit), HttpStatus.OK);
+    public ResponseEntity<List<Product>> getLimitListProductByType(@PathVariable int idType, @PathVariable int limit) {
+        return new ResponseEntity<>(productService.getLimitProductByType(idType, limit), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById (@PathVariable int id){
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
     }
 
     @GetMapping("/count/{idType}")
-    public ResponseEntity<Integer> countProductByIdProduct(@PathVariable int idType){
-        return new ResponseEntity<>(productService.countProductByIdProduct(idType),HttpStatus.OK);
+    public ResponseEntity<Integer> countProductByIdProduct(@PathVariable int idType) {
+        return new ResponseEntity<>(productService.countProductByIdProduct(idType), HttpStatus.OK);
     }
 
     @GetMapping("/search/{name}/{limit}")
-    public ResponseEntity<List<Product>> searchByName(@PathVariable String name, @PathVariable int limit){
-        return new ResponseEntity<>(productService.searchByName(name,limit),HttpStatus.OK);
+    public ResponseEntity<List<Product>> searchByName(@PathVariable String name, @PathVariable int limit) {
+        return new ResponseEntity<>(productService.searchByName(name, limit), HttpStatus.OK);
     }
 
     @GetMapping("/count-search/{name}")
-    public ResponseEntity<Integer> countSearch(@PathVariable String name){
-        return new ResponseEntity<>(productService.countSearch(name),HttpStatus.OK);
+    public ResponseEntity<Integer> countSearch(@PathVariable String name) {
+        return new ResponseEntity<>(productService.countSearch(name), HttpStatus.OK);
     }
 
     @GetMapping("/between/{begin}/{end}/{idType}/{limit}")
     public ResponseEntity<List<Product>> getListProductBetweenByPrice(@PathVariable int begin, @PathVariable int end,
-                                                                      @PathVariable int idType, @PathVariable int limit){
-        return new ResponseEntity<>(productService.getListProductBetweenByPrice(begin,end,idType,limit),HttpStatus.OK);
+                                                                      @PathVariable int idType, @PathVariable int limit) {
+        return new ResponseEntity<>(productService.getListProductBetweenByPrice(begin, end, idType, limit), HttpStatus.OK);
     }
 
-        @GetMapping(("/count-between/{begin}/{end}/{idType}"))
+    @GetMapping(("/count-between/{begin}/{end}/{idType}"))
     public ResponseEntity<Integer> countProductBetweenByPrice(@PathVariable int begin, @PathVariable int end,
-                                                                      @PathVariable int idType){
-        return new ResponseEntity<>(productService.countProductBetweenByPrice(begin,end,idType),HttpStatus.OK);
+                                                              @PathVariable int idType) {
+        return new ResponseEntity<>(productService.countProductBetweenByPrice(begin, end, idType), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/test")
-    public ResponseEntity<?> test(){
+    @GetMapping({"/best-selling"})
+    public ResponseEntity<List<Product>> bestSellingProduct() {
+        return new ResponseEntity<>(productService.bestSellingProduct(), HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{idProduct}")
+    public ResponseEntity<?> deleteProductById (@PathVariable int idProduct){
+        productService.deleteProductByid(idProduct);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

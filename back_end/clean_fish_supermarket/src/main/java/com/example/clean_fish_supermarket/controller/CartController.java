@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,7 +42,11 @@ public class CartController {
             cartService.addCart(cart);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            Cart cart = new Cart(oldCart.getIdCart(), oldCart.getQuantityProduct() + 1, user, product);
+            int numEnd = oldCart.getQuantityProduct() + 1;
+            if(numEnd > product.getQuantity()){
+                numEnd = product.getQuantity();
+            }
+            Cart cart = new Cart(oldCart.getIdCart(), numEnd, user, product);
             cartService.addCart(cart);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -56,11 +61,22 @@ public class CartController {
         Product product = productService.getProductById(idProduct);
         Cart oldCart = cartService.getQuantityProductByUser(user.getIdUser(), product.getIdProduct());
         if (oldCart == null) {
+            if (num < 1){
+                num = 1;
+            }
+            if (num > product.getQuantity()){
+                num = product.getQuantity();
+            }
+
             Cart cart = new Cart(num, user, product);
             cartService.addCart(cart);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            Cart cart = new Cart(oldCart.getIdCart(), oldCart.getQuantityProduct() + num, user, product);
+            int numEnd = oldCart.getQuantityProduct() + num;
+            if(numEnd > product.getQuantity()){
+                numEnd =product.getQuantity();
+            }
+            Cart cart = new Cart(oldCart.getIdCart(), numEnd, user, product);
             cartService.addCart(cart);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -121,6 +137,22 @@ public class CartController {
             num=0;
         }
         return new ResponseEntity<>(num,HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @GetMapping("/check-product")
+    public ResponseEntity<List<String>> checkProductBeforePayment(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findUerByEmail(email).get();
+        List<Cart> list = cartService.getListCartByUser(user.getIdUser());
+        List<String> nameProduct = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getQuantityProduct()>productService.getProductById(list.get(i).getProduct().getIdProduct()).getQuantity()){
+nameProduct.add(list.get(i).getProduct().getNameProduct());
+            }
+        }
+        return new ResponseEntity<>(nameProduct,HttpStatus.OK);
     }
 
 }

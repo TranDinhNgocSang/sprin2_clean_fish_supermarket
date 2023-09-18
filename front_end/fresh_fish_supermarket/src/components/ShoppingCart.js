@@ -5,6 +5,7 @@ import {
   addProductToCart,
   miniusProductToCart,
   totalProductOnCart,
+  listNameProductOf
 } from "../service/cartService";
 import numeral from "numeral";
 import { useDispatch } from "react-redux";
@@ -18,6 +19,7 @@ function ShoppingCart() {
   const dispatch = useDispatch();
   const [address, setAddress] = useState("");
   const [note, setNote] = useState("");
+  const [nameProductsOf,setNameProductsOf] = useState([]);
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -29,6 +31,13 @@ function ShoppingCart() {
       setProducts(data);
     } catch (error) {}
   };
+  
+  console.log("a");
+
+  const getListNameProductOf = async() =>{
+    const data = await listNameProductOf(headers);
+    setNameProductsOf(data);
+  }
 
   const handleOnClickDelete = async (idProduct, nameProduct) => {
     Swal.fire({
@@ -52,11 +61,24 @@ function ShoppingCart() {
           showConfirmButton: false,
           timer: 1500,
         });
+        setFlag(!flag)
       }
+      
     });
   };
 
   const handleButtonThanhToan = async (total) => {
+    let nameProducts = nameProductsOf.join(", ");
+    if(nameProductsOf.length>0){
+      Swal.fire({
+        position: "top-center",
+        icon: "warning",
+        title: `${nameProducts} không đủ trong kho`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
+    }
     if (address.length == 0) {
       Swal.fire({
         position: "top-center",
@@ -77,6 +99,13 @@ function ShoppingCart() {
       });
       return;
     }
+    localStorage.setItem("address",address);
+    if(note==""){
+      localStorage.setItem("note","không có ghi chú")
+    }else{
+      localStorage.setItem("note",note)
+    }
+    
     const data = await payWithVNpay(total);
     window.location.href = data;
   };
@@ -93,6 +122,7 @@ function ShoppingCart() {
 
   useEffect(() => {
     getListProduct();
+    getListNameProductOf();
   }, [flag]);
 
   var toltalPrice = 0;
@@ -145,8 +175,16 @@ function ShoppingCart() {
         {/* Breadcrumb Section End */}
         {/* Shoping Cart Section Begin */}
         {products.length == 0 ? (
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", position:"relative" }}>
             <img width={500} src="img/empty-cart.png"></img>
+            <p
+            style={{position: "absolute",
+          top: "250px",
+          right:"615px",
+          backgroundColor:"white",
+          zIndex:"99999999999"
+          }}
+            ><b>Không có sản phẩm trong giỏ hàng</b></p>
           </div>
         ) : (
           <section className="shoping-cart spad">
@@ -291,7 +329,9 @@ function ShoppingCart() {
                       onClick={() => {
                         handleButtonThanhToan(toltalPrice+20000);
                       }}
-                      style={{color: "white"}}
+                      style={{color: "white",
+                    cursor:"pointer"
+                    }}
                     >
                       thanh toán
                     </a>

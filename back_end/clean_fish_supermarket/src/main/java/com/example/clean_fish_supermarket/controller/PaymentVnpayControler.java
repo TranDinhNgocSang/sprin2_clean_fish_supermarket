@@ -42,7 +42,7 @@ public class PaymentVnpayControler {
 
 
     @PostMapping("/create/{total}")
-    public ResponseEntity<?> create(@PathVariable int total)
+    public ResponseEntity<?> create(@PathVariable long total)
             throws UnsupportedEncodingException {
 
         String orderType = "170000";
@@ -116,7 +116,8 @@ public class PaymentVnpayControler {
 
     @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
     @PostMapping("/{address}/{note}")
-    public ResponseEntity<?> addOrder(@PathVariable String address, @PathVariable String note){
+    public ResponseEntity<OrderProduct> addOrder(@PathVariable String address, @PathVariable String note){
+        OrderProduct orderProduct0 = null;
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String email = authentication.getName();
@@ -126,20 +127,23 @@ public class PaymentVnpayControler {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
             String formattedDate = dateFormat.format(date);
             List<Cart> list = cartService.getListCartByUser(user.getIdUser());
-            OrderProduct orderProduct = new OrderProduct(address, formattedDate, note, statusOder, user);
-            OrderProduct orderProduct1 = orderProductService.addOder(orderProduct);
-            for (int i = 0; i < list.size(); i++) {
-                OrderDetail orderDetail = new OrderDetail(list.get(i).getQuantityProduct(), orderProduct1,
-                        list.get(i).getProduct());
-                orderDetailService.addOrderDetail(orderDetail);
-                Product product = productService.getProductById(list.get(i).getProduct().getIdProduct());
-                productService.updateQuantityProductById(product.getQuantity()-list.get(i).getQuantityProduct(),
-                        list.get(i).getProduct().getIdProduct());
+            if (list.size()>0) {
+                OrderProduct orderProduct = new OrderProduct(address, formattedDate, note, statusOder, user);
+                OrderProduct orderProduct1 = orderProductService.addOder(orderProduct);
+                orderProduct0 = orderProduct1;
+                for (int i = 0; i < list.size(); i++) {
+                    OrderDetail orderDetail = new OrderDetail(list.get(i).getQuantityProduct(), orderProduct1,
+                            list.get(i).getProduct());
+                    orderDetailService.addOrderDetail(orderDetail);
+                    Product product = productService.getProductById(list.get(i).getProduct().getIdProduct());
+                    productService.updateQuantityProductById(product.getQuantity() - list.get(i).getQuantityProduct(),
+                            list.get(i).getProduct().getIdProduct());
+                }
+                cartService.deleteCartByUser(user.getIdUser());
             }
-            cartService.deleteCartByUser(user.getIdUser());
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(orderProduct0,HttpStatus.OK);
     }
 }

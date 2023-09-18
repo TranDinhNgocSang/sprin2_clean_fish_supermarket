@@ -111,9 +111,11 @@ getToltalProductOnCart();
                           localStorage.removeItem("role");
                           setFlag(!flag);
                           navigate("/login");
+                          dispatch(updateCart(0));
                         }}
                         >Đăng xuất</div>
-                        <div className="login-user-item">Lịch sử mua hàng</div> 
+                        <div className="login-user-item" onClick={()=>{navigate("/lich-su-mua-hang")}}>Lịch sử mua hàng</div> 
+                        <div className="login-user-item" onClick={()=>{navigate("/info")}}>Tài khoảng của tôi</div>
                        </div>
                       </div>
                     }

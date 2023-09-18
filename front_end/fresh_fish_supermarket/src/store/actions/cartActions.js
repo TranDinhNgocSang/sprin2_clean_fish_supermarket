@@ -5,14 +5,6 @@ export const updateCart = (quantity) => {
   };
 };
 
-export const updateAddress = (address) =>{
-  return{
-    type : "UPDATE_ADDRESS",
-    payload : address
-  }
-}
-
-
 export const getCart = (state) => {
     return state.cartReducer.cart;
 }
@@ -20,3 +12,5 @@ export const getCart = (state) => {
 export const getCount = (state) => {
   return state.cartReducer.count;
 }
+
+

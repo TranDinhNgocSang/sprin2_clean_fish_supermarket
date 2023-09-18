@@ -3,7 +3,7 @@ package com.example.clean_fish_supermarket.dto.request;
 import com.example.clean_fish_supermarket.model.Role;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+
 
 public class SignUpForm {
     @NotBlank(message = "Tên người dùng không được để trống")

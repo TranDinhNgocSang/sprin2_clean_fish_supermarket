@@ -55,4 +55,19 @@ public interface IProductRepository extends JpaRepository<Product,Integer> {
     @Transactional
     @Query(value = "UPDATE product SET quantity = :quantity WHERE id_product = :idProduct", nativeQuery = true)
     void updateQuantityProductById(@Param("quantity") int quantity, @Param("idProduct") int idProduct);
+
+    @Query(value = "SELECT p.*\n" +
+            "FROM product p\n" +
+            "JOIN order_detail od ON p.id_product = od.id_product\n" +
+            "where is_delete_product = false \n" +
+            "GROUP BY p.id_product\n" +
+            "ORDER BY SUM(od.quantity_product) DESC\n" +
+            "LIMIT 8", nativeQuery = true)
+    List<Product> bestSellingProduct ();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE product SET is_delete_product = 1 WHERE id_product = :idProduct", nativeQuery = true)
+    void deleteProductByid (@Param("idProduct") int idProduct);
+
 }

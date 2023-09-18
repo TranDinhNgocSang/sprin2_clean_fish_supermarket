@@ -22,4 +22,8 @@ public interface IProductService {
 
     void updateQuantityProductById(int quantity, int idProduct);
 
+    List<Product> bestSellingProduct ();
+
+    void deleteProductByid (int idProduct);
+
 }

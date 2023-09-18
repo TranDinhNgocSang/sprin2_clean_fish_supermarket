@@ -4,8 +4,12 @@ import { Formik, Form, Field , ErrorMessage} from "formik"
 import * as yup from "yup"
 import {loginGetToken} from "../service/authService"
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../store/actions/cartActions";
+import {totalProductOnCart} from "../service/cartService";
 
 function Login(){
+  const dispatch = useDispatch();
   const navigate = useNavigate();
     return(
         <>
@@ -38,6 +42,11 @@ function Login(){
                       localStorage.setItem("token",data.token);
                       localStorage.setItem("userName",data.userName);
                       localStorage.setItem("role",data.role);
+                      const headers = {
+                        'Authorization': `Bearer ${data.token}`,
+                      };
+                      const num = await totalProductOnCart(headers);
+       dispatch(updateCart(num));
                       Swal.fire({
                         position: 'top-center',
                         icon: 'success',

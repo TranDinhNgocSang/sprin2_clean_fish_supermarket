@@ -1,51 +1,56 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {getProductById, getLimitListProductByType} from "../service/productService"
+import {
+  getProductById,
+  getLimitListProductByType,
+} from "../service/productService";
 import numeral from "numeral";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { updateCart } from "../store/actions/cartActions";
-import { ToastContainer, toast } from 'react-toastify';
-import {addProductToCart, totalProductOnCart, addProductToCartDetail} from "../service/cartService";
+import { ToastContainer, toast } from "react-toastify";
+import {
+  addProductToCart,
+  totalProductOnCart,
+  addProductToCartDetail,
+} from "../service/cartService";
 
-function DetaiProduct (){
-  const {data} = useParams();
+function DetaiProduct() {
+  const { data } = useParams();
   // const navigate = useNavigate();
-  const [product,setProduct] = useState();
-  const [listProduct,setListProduct] = useState([]);
+  const [product, setProduct] = useState();
+  const [listProduct, setListProduct] = useState([]);
   // const [flag,setFlag]= useState(false);
   const dispatch = useDispatch();
-  const [count,setCount] = useState(1);
+  const [count, setCount] = useState(1);
 
   const arrData = data.split(",");
   const idProduct = arrData[1];
   const idType = arrData[2];
 
+  const getProduct = async () => {
+    const data = await getProductById(idProduct);
+    setProduct(data);
+  };
 
-  const getProduct = async()=>{
-const data = await getProductById(idProduct);
-setProduct(data);
-  }
-
-  const handelOnClick = async(id)=>{
+  const handelOnClick = async (id) => {
     window.scrollTo(0, 0);
     const data = await getProductById(id);
     setProduct(data);
-  }
-
-  const getListProduct = async ()=>{
-const data = await getLimitListProductByType(idType,4)
-setListProduct(data);
-  }
-
-  const headers = {
-    'Authorization': `Bearer ${localStorage.getItem("token")}`,
   };
 
-  const handleOnClickAddToCart = async (idProduct,nameProduct) =>{
- 
+  const getListProduct = async () => {
+    const data = await getLimitListProductByType(idType, 4);
+    setListProduct(data);
+  };
+
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+
+  const handleOnClickAddToCart = async (idProduct, nameProduct) => {
     try {
-      await addProductToCart(idProduct,headers);
+      await addProductToCart(idProduct, headers);
       toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
         position: "top-right",
         autoClose: 800,
@@ -55,18 +60,38 @@ setListProduct(data);
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
-       const data = await totalProductOnCart(headers);
-       dispatch(updateCart(data));
+      });
+      const data = await totalProductOnCart(headers);
+      dispatch(updateCart(data));
     } catch (error) {
-      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+      Swal.fire("Bạn hãy đăng nhập để mua hàng nhé !");
     }
-  }
+  };
 
-  const handleOnClickAddToCartt = async (idProduct,nameProduct) =>{
- 
+  const handleOnClickAddToCartt = async (idProduct, nameProduct) => {
     try {
-      await addProductToCartDetail(idProduct,count,headers);
+      if(count>50){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'warning',
+          title: 'Số lượng tối đa 50',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        return;
+      }
+
+      if(count<1){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'warning',
+          title: 'Số lượng phải lớn hơn 0',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        return;
+      }
+      await addProductToCartDetail(idProduct, count, headers);
       toast.success(`Đã thêm ${nameProduct} vào giỏ`, {
         position: "top-right",
         autoClose: 800,
@@ -76,26 +101,28 @@ setListProduct(data);
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
-       const data = await totalProductOnCart(headers);
-       dispatch(updateCart(data));
+      });
+      const data = await totalProductOnCart(headers);
+      dispatch(updateCart(data));
     } catch (error) {
-      Swal.fire('Bạn hãy đăng nhập để mua hàng nhé !')
+      Swal.fire("Bạn hãy đăng nhập để mua hàng nhé !");
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getProduct();
     window.scrollTo(0, 0);
     getListProduct();
-  },[])
+  }, []);
 
-  if(!product){
+  if (!product) {
     return null;
   }
-    return(
-        <>
-         <div>
+console.log(count);
+
+  return (
+    <>
+      <div>
         <meta charSet="UTF-8" />
         <meta name="description" content="Ogani Template" />
         <meta name="keywords" content="Ogani, unica, creative, html" />
@@ -103,18 +130,32 @@ setListProduct(data);
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         <title>Ogani | Template</title>
         {/* Google Font */}
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+          rel="stylesheet"
+        />
         {/* Css Styles */}
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+        <link
+          rel="stylesheet"
+          href="css/font-awesome.min.css"
+          type="text/css"
+        />
         <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
         <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
         <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
+        <link
+          rel="stylesheet"
+          href="css/owl.carousel.min.css"
+          type="text/css"
+        />
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
         <link rel="stylesheet" href="css/style.css" type="text/css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></link>
-      
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        ></link>
+
         <div className="humberger__menu__overlay" />
 
         <section className="product-details spad">
@@ -123,48 +164,81 @@ setListProduct(data);
               <div className="col-lg-6 col-md-6">
                 <div className="product__details__pic">
                   <div className="product__details__pic__item">
-                    <img style={{ width: "200px" }} className="product__details__pic__item--large" src={product.img} alt="" />
-                  </div>  
+                    <img
+                      style={{ width: "200px" }}
+                      className="product__details__pic__item--large"
+                      src={product.img}
+                      alt=""
+                    />
+                  </div>
                 </div>
               </div>
               <div className="col-lg-6 col-md-6">
                 <div className="product__details__text">
                   <h3>{product.nameProduct}</h3>
-                  <div className="product__details__price">{numeral(product.price).format('00,0 đ')}đ</div>
+                  <div className="product__details__price">
+                    {numeral(product.price).format("00,0 đ")}đ
+                  </div>
                   <p>{product.describeProduct}</p>
                   <div className="product__details__quantity">
-                  <p className="detail-text">KHỐI LƯỢNG: 1KG </p>
-                    <div className="quantity">                  
+                    {product.typeProduct.idTypeProduct == 5 || product.typeProduct.idTypeProduct == 6 ? (
+                      <p className="detail-text">ĐƠN VỊ : 1 PHẦN </p>
+                    ) : (
+                      <p className="detail-text">KHỐI LƯỢNG: 1KG </p>
+                    )}
+
+                    <div className="quantity">
                       <div className="pro-qty">
-                        <button className="nut-tang-giam" 
-                        onClick={()=>{
-                          if(count>1){
-                            setCount(count-1)
-                          }
-                          }}>
-                        <i class="fa-solid fa-minus"></i>
-                        </button>
-                        <input type="number" value={count} min={1} readOnly/>
-                        <button className="nut-tang-giam"
-                        onClick={()=>{
-                          if(count<50){
-                            setCount(count+1)
-                          }
+                        <button
+                          className="nut-tang-giam"
+                          onClick={() => {
+                            if (count > 1) {
+                              setCount(count - 1);
+                            }
                           }}
-                          >
-                        
-                        <i class="fa-solid fa-plus"></i>
+                        >
+                          <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <input type="number" value={count} min={1} onChange={(e)=>setCount(e.target.value)}/>
+                        <button
+                          className="nut-tang-giam"
+                          onClick={() => {
+                            if(count<50){
+                              setCount(count*1 + 1);
+                            }
+                          }}
+                        >
+                          <i class="fa-solid fa-plus"></i>
                         </button>
                       </div>
                     </div>
                   </div>
-                  <button id="add-detail"
-                  onClick={()=>handleOnClickAddToCartt(product.idProduct,product.nameProduct)}
-                  ><b>ADD TO CARD</b></button>
+                  <button
+                    id="add-detail"
+                    onClick={() =>
+                      handleOnClickAddToCartt(
+                        product.idProduct,
+                        product.nameProduct
+                      )
+                    }
+                  >
+                    <b>Thêm vào giỏ</b>
+                  </button>
                   <ul>
-                    <li><i className="fa-solid fa-truck"></i>&nbsp;&nbsp;&nbsp;&nbsp;Giao hàng nhanh trong 2 giờ, nội thành TP.Đà Nẵng.</li>
-                    <li><i className="fa-solid fa-box"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đổi trả với bất kỳ lý do gì liên quan đến sản phẩm.</li>
-                    <li><i className="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nhiều ưu đã cho thành viên.</li>
+                    <li>
+                      <i className="fa-solid fa-truck"></i>
+                      &nbsp;&nbsp;&nbsp;&nbsp;Giao hàng nhanh trong 2 giờ, nội
+                      thành TP.Đà Nẵng.
+                    </li>
+                    <li>
+                      <i className="fa-solid fa-box"></i>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đổi trả với bất kỳ lý do gì
+                      liên quan đến sản phẩm.
+                    </li>
+                    <li>
+                      <i className="fa-solid fa-gift"></i>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nhiều ưu đã cho thành viên.
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -183,40 +257,66 @@ setListProduct(data);
               </div>
             </div>
             <div className="row">
-            {listProduct.map((c)=>{
-                return(
-<div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={c.idProduct}>
-                <div className="featured__item"
-                style={{
-                  backgroundImage:`url('${c.img}')`,
-                  height: "270px",
-                  backgroundepReat: "no-repeat",
-	                backgroundSize: "cover",
-	                backgroundPosition: "top center",
-                }}
-                
-                >
-                  <div className="featured__item__pic">
-                    <ul className="featured__item__pic__hover"
-                    onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}
+              {listProduct.map((c) => {
+                return (
+                  <div
+                    className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"
+                    key={c.idProduct}
+                  >
+                    <div
+                      className="featured__item"
+                      style={{
+                        backgroundImage: `url('${c.img}')`,
+                        height: "270px",
+                        backgroundepReat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "top center",
+                      }}
                     >
-                      <li><a><span class="add-to-cart"><b>Thêm vào giỏ</b></span> <i className="fa fa-shopping-cart" /></a></li>
-                    </ul>
+                      <div className="featured__item__pic">
+                        <ul
+                          className="featured__item__pic__hover"
+                          onClick={() =>
+                            handleOnClickAddToCart(c.idProduct, c.nameProduct)
+                          }
+                        >
+                          <li>
+                            <a>
+                              <span class="add-to-cart">
+                                <b>Thêm vào giỏ</b>
+                              </span>{" "}
+                              <i className="fa fa-shopping-cart" />
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div
+                        className="featured__item__text"
+                        onClick={() => {
+                          handelOnClick(c.idProduct);
+                        }}
+                      >
+                        <h6>
+                          <a
+                            onClick={() => {
+                              handelOnClick(c.idProduct);
+                            }}
+                          >
+                            {c.nameProduct}
+                          </a>
+                        </h6>
+                        <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                      </div>
+                    </div>
                   </div>
-                  <div className="featured__item__text" onClick={()=>{handelOnClick(c.idProduct)}}>
-                    <h6><a onClick={()=>{handelOnClick(c.idProduct)}}>{c.nameProduct}</a></h6>
-                    <h5>{numeral(c.price).format('00,0 đ')} vnđ</h5>
-                  </div>
-                </div>
-              </div>
-                )
+                );
               })}
             </div>
             <ToastContainer></ToastContainer>
           </div>
         </section>
       </div>
-        </>
-    )
+    </>
+  );
 }
 export default DetaiProduct;

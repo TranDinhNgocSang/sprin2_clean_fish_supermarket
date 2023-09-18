@@ -13,6 +13,11 @@ import TomMucList from "./components/TomMucList";
 import {Routes,Route} from "react-router-dom"
 import Register from "./components/Register";
 import TimKiem from "./components/TimKiem";
+import Return from "./components/Return";
+import HistoryOrder from "./components/HistoryOrder";
+import Infor from "./components/Info";
+import Forbidden from "./components/Forbidden";
+
 
 
 function App() {
@@ -32,6 +37,10 @@ function App() {
   <Route path="/:data" element={<DetaiProduct></DetaiProduct>}></Route>
   <Route path="/register" element={<Register></Register>}></Route>
   <Route path="/timkiem/:name" element={<TimKiem></TimKiem>}></Route>
+  <Route path="/Return" element={<Return></Return>}></Route>
+  <Route path="/lich-su-mua-hang" element={<HistoryOrder></HistoryOrder>}></Route>
+  <Route path="/info" element={<Infor></Infor>}></Route>
+  <Route path="/403" element={<Forbidden></Forbidden>}></Route>
 </Routes>
 <Footer></Footer>
 </>

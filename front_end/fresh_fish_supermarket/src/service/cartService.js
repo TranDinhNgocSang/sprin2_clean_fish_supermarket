@@ -28,3 +28,8 @@ export const deleteProductOnCart = async (idProduct,headers)=>{
     const res = await axios.delete("http://localhost:8080/cart/delete/"+idProduct,{headers});
     return res.data;
 }
+
+export const listNameProductOf = async (headers)=>{
+    const res = await axios.get("http://localhost:8080/cart/check-product",{headers});
+    return res.data;
+}

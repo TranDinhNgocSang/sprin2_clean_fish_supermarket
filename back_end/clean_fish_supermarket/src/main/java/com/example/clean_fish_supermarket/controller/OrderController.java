@@ -1,8 +1,12 @@
 package com.example.clean_fish_supermarket.controller;
 
 import com.example.clean_fish_supermarket.model.*;
+import com.example.clean_fish_supermarket.model.projections.IOrderProjection;
 import com.example.clean_fish_supermarket.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,5 +60,21 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @GetMapping("/list-order/{page}")
+public ResponseEntity<Page<IOrderProjection>> getListOrderByUser (@PathVariable int page){
+        Pageable pageable = PageRequest.of(page,5);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findUerByEmail(email).get();
+return new ResponseEntity<>(orderProductService.getOrderByUser(user.getIdUser(),pageable),HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @GetMapping("/list-order-detail/{idOrder}")
+    public ResponseEntity<List<OrderDetail>> getListOrderDetail(@PathVariable int idOrder){
+        return new ResponseEntity<>(orderDetailService.getListOrderDetail(idOrder),HttpStatus.OK);
     }
 }
