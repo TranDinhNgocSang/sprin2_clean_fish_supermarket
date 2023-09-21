@@ -113,6 +113,7 @@ function Home() {
     window.scrollTo(0, 0);
   }, []);
 
+  console.log(productsBestSelling);
 
   return (
     <>
@@ -269,16 +270,26 @@ function Home() {
                       backgroundPosition: "top center",
                     }}
                   >
-                    <ul className="featured__item__pic__hover">
+                    
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
                       <li>
-                        <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                          <span class="add-to-cart">
-                            <b>Thêm vào giỏ</b>
-                          </span>{" "}
-                          <i className="fa fa-shopping-cart" />
-                        </a>
-                      </li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
                     </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
+                      
+                   
                   </div>
                   <div className="featured__item__text"
                        onClick={() => {
@@ -291,7 +302,7 @@ function Home() {
                       }}
                   >
                     <h6>
-                      <a >{c.nameProduct}</a>
+                      <p className="name-product">{c.nameProduct}</p>
                     </h6>
                     <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                   </div>
@@ -337,16 +348,23 @@ function Home() {
                       
                     >
                       <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                         <ToastContainer></ToastContainer>
                       </div>
                       <div className="featured__item__text"
@@ -360,7 +378,7 @@ function Home() {
                       }}
                       >
                         <h6>
-                          <a
+                          <p className="name-product"
                             onClick={() => {
                               navigate(
                                 "/detail," +
@@ -371,7 +389,7 @@ function Home() {
                             }}
                           >
                             {c.nameProduct}
-                          </a>
+                          </p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                       </div>
@@ -427,16 +445,23 @@ function Home() {
               
                     >
                       <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                       </div>
                       <div className="featured__item__text"
                        onClick={() => {
@@ -449,7 +474,7 @@ function Home() {
                       }}
                       >
                         <h6>
-                          <a
+                          <p className="name-product"
                             onClick={() => {
                               navigate(
                                 "/detail," +
@@ -460,7 +485,7 @@ function Home() {
                             }}
                           >
                             {c.nameProduct}
-                          </a>
+                          </p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ/kg</h5>
                       </div>
@@ -516,16 +541,23 @@ function Home() {
               
                     >
                       <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                       </div>
                       <div className="featured__item__text"
                       onClick={() => {
@@ -537,7 +569,7 @@ function Home() {
                         );
                       }}>
                         <h6>
-                          <a
+                          <p className="name-product"
                             onClick={() => {
                               navigate(
                                 "/detail," +
@@ -548,7 +580,7 @@ function Home() {
                             }}
                           >
                             {c.nameProduct}
-                          </a>
+                          </p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                       </div>
@@ -604,16 +636,23 @@ function Home() {
                       
                     >
                       <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                       </div>
                       <div className="featured__item__text"
                        onClick={() => {
@@ -626,7 +665,7 @@ function Home() {
                       }}
                       >
                         <h6>
-                          <a
+                          <p className="name-product"
                             onClick={() => {
                               navigate(
                                 "/detail," +
@@ -637,7 +676,7 @@ function Home() {
                             }}
                           >
                             {c.nameProduct}
-                          </a>
+                          </p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ/Kg</h5>
                       </div>
@@ -692,16 +731,23 @@ function Home() {
                       }}
                     >
                       <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                       </div>
                       <div className="featured__item__text"
                        onClick={() => {
@@ -714,7 +760,7 @@ function Home() {
                       }}
                       >
                         <h6>
-                          <a
+                          <p className="name-product"
                             onClick={() => {
                               navigate(
                                 "/detail," +
@@ -725,7 +771,7 @@ function Home() {
                             }}
                           >
                             {c.nameProduct}
-                          </a>
+                          </p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
                       </div>
@@ -780,16 +826,23 @@ function Home() {
                       }}
                     >
                       <div className="featured__item__pic">
-                        <ul className="featured__item__pic__hover">
-                          <li>
-                            <a onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                      {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                       </div>
                       <div className="featured__item__text"
                        onClick={() => {
@@ -802,7 +855,7 @@ function Home() {
                       }}
                       >
                         <h6>
-                          <a
+                          <p className="name-product"
                             onClick={() => {
                               navigate(
                                 "/detail," +
@@ -813,7 +866,7 @@ function Home() {
                             }}
                           >
                             {c.nameProduct}
-                          </a>
+                          </p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
                       </div>

@@ -28,12 +28,12 @@ function TimKiem() {
   };
 
   const getListProduct = async () => {
-    const data = await searchByName(name, limit);
+    const data = await searchByName(name.trim(), limit);
     setProducts(data);
   };
 
   const getQuantityProduct = async () => {
-    const data = await countSearch(name);
+    const data = await countSearch(name.trim());
     setQuantityProduct(data);
   };
 

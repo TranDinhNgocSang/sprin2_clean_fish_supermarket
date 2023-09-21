@@ -69,7 +69,7 @@ getListOrder(event.selected);
           {/* <div className="table-responsive"> */}
             <div className="table-wrapper" style={{paddingTop:"0px", paddingBottom:"90px"}}>
       
-              <table className="table table-striped table-hover">
+              <table className="table table-striped table-hover"  onClick={(e) => { e.stopPropagation(); console.log("Con clicked") }}>
                 <thead>
                   <tr>
                     <th style={{width:"100px", textAlign:"center"}}>STT</th>
@@ -83,7 +83,7 @@ getListOrder(event.selected);
                     {orders.map((c,index)=>{
                         return(
                             <tr key={index}>
-                    <td style={{width:"100px", textAlign:"center"}}>{(index+1)*(page+1)}</td>
+                    <td style={{width:"100px", textAlign:"center"}}>{(index+1+page*5)}</td>
                     <td style={{textAlign:"center"}}>{formatDate(c.day_oder)}</td>
                    
                         {c.name_status=="Chờ xử lý"?
@@ -124,6 +124,8 @@ getListOrder(event.selected);
       />
             </div>
           {/* </div> */}
+
+        
         </div>     
       </div>
       {flag==true?

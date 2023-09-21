@@ -42,7 +42,7 @@ LIMIT 8;
 SELECT count(*) FROM clean_fish_supermarket.product
 where id_type_product = 1;
 
-SELECT order_product.address,order_product.day_oder,status_oder.name_status, sum(order_detail.quantity_product*product.price+20000) as total FROM order_product
+SELECT order_product.id_oder,order_product.address,order_product.day_oder,status_oder.name_status, sum(order_detail.quantity_product*product.price+20000) as total FROM order_product
 join order_detail
 on order_product.id_oder=order_detail.id_oder
 join product on product.id_product=order_detail.id_product

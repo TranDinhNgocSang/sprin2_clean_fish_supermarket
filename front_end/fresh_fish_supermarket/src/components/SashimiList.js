@@ -479,16 +479,23 @@ function SashimiList() {
                         //   );
                         // }}
                       >
-                        <ul className="featured__item__pic__hover">
-                          <li onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
-                            <a>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
+                        {c.quantity>0?
+                      <ul className="featured__item__pic__hover">
+                      <li>
+                      <a className="name-product" onClick={()=>handleOnClickAddToCart(c.idProduct,c.nameProduct)}>
+                        <span class="add-to-cart">
+                            Thêm vào giỏ
+                        </span>{" "}
+                        <i className="fa fa-shopping-cart" />
+                      </a>
+                    </li>
+                    </ul>
+                    :
+                  <div className="het-hang">
+                    <h4 className="het-hang-conten"><b>Tạm hết hàng</b></h4>
+                    </div>
+
+                    }
                         <ToastContainer></ToastContainer>
                       </div>
                       <div className="featured__item__text"
@@ -502,9 +509,7 @@ function SashimiList() {
                         }}
                       >
                         <h6>
-                          <a>
-                            {c.nameProduct}
-                          </a>
+                        <p className="name-product">{c.nameProduct}</p>
                         </h6>
                         <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
                       </div>

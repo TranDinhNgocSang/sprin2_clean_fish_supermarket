@@ -14,6 +14,8 @@ import {
   totalProductOnCart,
   addProductToCartDetail,
 } from "../service/cartService";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 function DetaiProduct() {
   const { data } = useParams();
@@ -28,6 +30,27 @@ function DetaiProduct() {
   const idProduct = arrData[1];
   const idType = arrData[2];
 
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 6000, min: 5000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 4000, min: 1024 },
+      items: 4
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
+
   const getProduct = async () => {
     const data = await getProductById(idProduct);
     setProduct(data);
@@ -40,7 +63,7 @@ function DetaiProduct() {
   };
 
   const getListProduct = async () => {
-    const data = await getLimitListProductByType(idType, 4);
+    const data = await getLimitListProductByType(idType, 12);
     setListProduct(data);
   };
 
@@ -118,7 +141,6 @@ function DetaiProduct() {
   if (!product) {
     return null;
   }
-console.log(count);
 
   return (
     <>
@@ -180,13 +202,15 @@ console.log(count);
                     {numeral(product.price).format("00,0 đ")}đ
                   </div>
                   <p>{product.describeProduct}</p>
-                  <div className="product__details__quantity">
+                  {product.quantity>0
+                    ?
+                    <>
+<div className="product__details__quantity">
                     {product.typeProduct.idTypeProduct == 5 || product.typeProduct.idTypeProduct == 6 ? (
                       <p className="detail-text">ĐƠN VỊ : 1 PHẦN </p>
                     ) : (
                       <p className="detail-text">KHỐI LƯỢNG: 1KG </p>
                     )}
-
                     <div className="quantity">
                       <div className="pro-qty">
                         <button
@@ -224,6 +248,11 @@ console.log(count);
                   >
                     <b>Thêm vào giỏ</b>
                   </button>
+                  </>
+                  :
+                  <h3 style={{color:"#dd2222"}}>Đã hết hàng</h3>
+                  }
+                  
                   <ul>
                     <li>
                       <i className="fa-solid fa-truck"></i>
@@ -249,68 +278,74 @@ console.log(count);
         {/* Related Product Section Begin */}
         <section className="related-product">
           <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
+            <div className="row" style={{height:"70px"}}>
+              <div className="col-lg-12" style={{height:"70px"}}>
                 <div className="section-title related__product__title">
                   <h2>Sản Phẩm Cùng Loại</h2>
                 </div>
               </div>
             </div>
-            <div className="row">
+            <div className="row" style={{height:"400px"}}>
+            <Carousel responsive={responsive}>
               {listProduct.map((c) => {
-                return (
-                  <div
-                    className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"
-                    key={c.idProduct}
-                  >
+                if(c.idProduct!=product.idProduct){
+                  return (
                     <div
-                      className="featured__item"
-                      style={{
-                        backgroundImage: `url('${c.img}')`,
-                        height: "270px",
-                        backgroundepReat: "no-repeat",
-                        backgroundSize: "cover",
-                        backgroundPosition: "top center",
-                      }}
+                      className="col-lg-12 fresh-meat"
+                      key={c.idProduct}
                     >
-                      <div className="featured__item__pic">
-                        <ul
-                          className="featured__item__pic__hover"
-                          onClick={() =>
-                            handleOnClickAddToCart(c.idProduct, c.nameProduct)
-                          }
-                        >
-                          <li>
-                            <a>
-                              <span class="add-to-cart">
-                                <b>Thêm vào giỏ</b>
-                              </span>{" "}
-                              <i className="fa fa-shopping-cart" />
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
                       <div
-                        className="featured__item__text"
-                        onClick={() => {
-                          handelOnClick(c.idProduct);
+                        className="featured__item"
+                        style={{
+                          backgroundImage: `url('${c.img}')`,
+                          height: "270px",
+                          backgroundepReat: "no-repeat",
+                          backgroundSize: "cover",
+                          backgroundPosition: "top center",
                         }}
                       >
-                        <h6>
-                          <a
-                            onClick={() => {
-                              handelOnClick(c.idProduct);
-                            }}
+                        <div className="featured__item__pic">
+                          <ul
+                            className="featured__item__pic__hover"
+                            onClick={() =>
+                              handleOnClickAddToCart(c.idProduct, c.nameProduct)
+                            }
                           >
-                            {c.nameProduct}
-                          </a>
-                        </h6>
-                        <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                            <li>
+                              <a>
+                                <span class="add-to-cart">
+                                  <b>Thêm vào giỏ</b>
+                                </span>{" "}
+                                <i className="fa fa-shopping-cart" />
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div
+                          className="featured__item__text"
+                          onClick={() => {
+                            handelOnClick(c.idProduct);
+                          }}
+                        >
+                          <h6>
+                            <a
+                              onClick={() => {
+                                handelOnClick(c.idProduct);
+                              }}
+                            >
+                              {c.nameProduct}
+                            </a>
+                            {/* <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5> */}
+                          </h6>
+                          <h5>{numeral(c.price).format("00,0 đ")} vnđ</h5>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
+                
               })}
+              </Carousel>
             </div>
             <ToastContainer></ToastContainer>
           </div>
