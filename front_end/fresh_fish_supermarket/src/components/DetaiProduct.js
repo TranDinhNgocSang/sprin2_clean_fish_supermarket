@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   getProductById,
   getLimitListProductByType,
@@ -25,6 +25,7 @@ function DetaiProduct() {
   // const [flag,setFlag]= useState(false);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
+  const navigate = useNavigate();
 
   const arrData = data.split(",");
   const idProduct = arrData[1];
@@ -52,14 +53,20 @@ function DetaiProduct() {
 
 
   const getProduct = async () => {
-    const data = await getProductById(idProduct);
+    try {
+      const data = await getProductById(idProduct);
     setProduct(data);
+    } catch (error) {
+    navigate("/404")
+    }
+ 
   };
 
   const handelOnClick = async (id) => {
     window.scrollTo(0, 0);
     const data = await getProductById(id);
     setProduct(data);
+    setCount(1);
   };
 
   const getListProduct = async () => {
@@ -93,11 +100,22 @@ function DetaiProduct() {
 
   const handleOnClickAddToCartt = async (idProduct, nameProduct) => {
     try {
+   
       if(count>50){
         Swal.fire({
           position: 'top-center',
           icon: 'warning',
           title: 'Số lượng tối đa 50',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        return;
+      }
+      if(count>product.quantity){
+        Swal.fire({
+          position: 'top-center',
+          icon: 'warning',
+          title: 'Số lượng trong kho không đủ',
           showConfirmButton: false,
           timer: 1500
         })
@@ -219,15 +237,27 @@ function DetaiProduct() {
                             if (count > 1) {
                               setCount(count - 1);
                             }
+                            if(count>product.quantity){
+                              setCount(product.quantity)
+                            }
                           }}
                         >
                           <i class="fa-solid fa-minus"></i>
                         </button>
-                        <input type="number" value={count} min={1} onChange={(e)=>setCount(e.target.value)}/>
+                        <input type="number" value={count} min={1} onChange={
+                          (e)=>
+                          {
+                            if(e.target.value>product.quantity){
+                              setCount(product.quantity)
+                            }else{
+                              setCount(e.target.value)
+                            }
+                          }
+                          }/>
                         <button
                           className="nut-tang-giam"
                           onClick={() => {
-                            if(count<50){
+                            if(count<product.quantity){
                               setCount(count*1 + 1);
                             }
                           }}

@@ -10,3 +10,13 @@ export const returnPaymentVNpay = async(address,note,headers)=>{
   return res.data;
 }
 
+export const keepProduct = async(headers)=>{
+  const res = await axios.get(`http://localhost:8080/vnpay/keep-product`,{headers})
+  return res.data;
+}
+
+export const returnProduct = async(headers)=>{
+  const res = await axios.get(`http://localhost:8080/vnpay/return-product`,{headers})
+  return res.data;
+}
+

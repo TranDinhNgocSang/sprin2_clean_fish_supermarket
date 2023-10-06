@@ -290,8 +290,9 @@ function CatuoiList() {
                             8
                           );
                           setProducts(data);
-                          getcountBetween(0,100000,idType)
+                          getcountBetween(0,100000,idType);
                           settextLoc("Dưới 100,000đ");
+                          setTextSapXep("");
                         }}
                       >
                         <a class="dropdown-item">Dưới 100,0000đ</a>
@@ -306,8 +307,9 @@ function CatuoiList() {
                             8
                           );
                           setProducts(data);
-                          getcountBetween(100000,200000,idType)
+                          getcountBetween(100000,200000,idType);
                           settextLoc("100,000đ - 200,000đ");
+                          setTextSapXep("");
                         }}
                       >
                         <a class="dropdown-item">100,000đ - 200,000đ</a>
@@ -322,8 +324,9 @@ function CatuoiList() {
                             8
                           );
                           setProducts(data);
-                          getcountBetween(200000,300000,idType)
+                          getcountBetween(200000,300000,idType);
                           settextLoc("200,000đ - 300,000đ");
+                          setTextSapXep("");
                         }}
                       >
                         <a class="dropdown-item">200,000đ - 300,000đ</a>
@@ -338,8 +341,9 @@ function CatuoiList() {
                             8
                           );
                           setProducts(data);
-                          getcountBetween(300000,400000,idType)
+                          getcountBetween(300000,400000,idType);
                           settextLoc("300,000đ - 400,000đ");
+                          setTextSapXep("");
                         }}
                       >
                         <a class="dropdown-item">300,000đ - 400,000đ</a>
@@ -354,8 +358,9 @@ function CatuoiList() {
                             8
                           );
                           setProducts(data);
-                          getcountBetween(400000,9000000,idType)
+                          getcountBetween(400000,9000000,idType);
                           settextLoc("Trên 400,000đ");
+                          setTextSapXep("");
                         }}
                       >
                         <a class="dropdown-item">Trên 400,000đ</a>
@@ -436,7 +441,7 @@ function CatuoiList() {
 <div className="row featured__filter">
               {products.map((c) => {
                 return (
-                  <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
+                  <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables" key={c.idProduct}>
                     <div className="featured__item">
                       {localStorage.getItem("role") === "ROLE_ADMIN" ? (
                         <div class="dropdown">

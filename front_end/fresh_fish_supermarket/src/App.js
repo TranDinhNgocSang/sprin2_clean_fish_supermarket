@@ -16,7 +16,7 @@ import TimKiem from "./components/TimKiem";
 import Return from "./components/Return";
 import HistoryOrder from "./components/HistoryOrder";
 import Infor from "./components/Info";
-import Forbidden from "./components/Forbidden";
+import NotFound from "./components/NotFound";
 
 
 
@@ -40,7 +40,7 @@ function App() {
   <Route path="/Return" element={<Return></Return>}></Route>
   <Route path="/lich-su-mua-hang" element={<HistoryOrder></HistoryOrder>}></Route>
   <Route path="/info" element={<Infor></Infor>}></Route>
-  <Route path="/403" element={<Forbidden></Forbidden>}></Route>
+  <Route path="/404" element={<NotFound></NotFound>}></Route>
 </Routes>
 <Footer></Footer>
 </>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import {returnPaymentVNpay} from "../service/paymentVNpay"
+import {returnPaymentVNpay, returnProduct} from "../service/paymentVNpay"
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { date } from 'yup';
@@ -50,7 +50,8 @@ function Return (){
                 timer:2000,
                 title:"Thanh toán thất bại",
                 showConfirmButton:false
-            }).then(()=>{
+            }).then(async()=>{
+                await returnProduct(headers);
                 navigate("/");
             })
         }

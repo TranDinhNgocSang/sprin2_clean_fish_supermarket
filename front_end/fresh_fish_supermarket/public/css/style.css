@@ -253,6 +253,7 @@ border: none;
 .name-product{
 color: #000 !important;
 font-weight: bold;
+cursor: pointer;
 }
 
 .het-hang{
@@ -1357,6 +1358,7 @@ ol {
 .featured__item__text {
 	text-align: center;
 	padding-top: 15px;
+	cursor: pointer;
 }
 
 .featured__item__text h6 {

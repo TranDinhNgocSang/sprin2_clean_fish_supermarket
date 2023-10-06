@@ -11,7 +11,7 @@ import numeral from "numeral";
 import { useDispatch } from "react-redux";
 import { updateCart } from "../store/actions/cartActions";
 import Swal from "sweetalert2";
-import { payWithVNpay } from "../service/paymentVNpay";
+import { payWithVNpay, keepProduct } from "../service/paymentVNpay";
 
 function ShoppingCart() {
   const [products, setProducts] = useState([]);
@@ -105,7 +105,7 @@ function ShoppingCart() {
     }else{
       localStorage.setItem("note",note)
     }
-    
+    await keepProduct(headers);
     const data = await payWithVNpay(total);
     window.location.href = data;
   };
@@ -205,7 +205,7 @@ function ShoppingCart() {
                       <tbody>
                         {products.map((c) => {
                           return (
-                            <tr>
+                            <tr key={c.idProduct}>
                               <td className="shoping__cart__item">
                                 <img
                                   src={c.product.img}

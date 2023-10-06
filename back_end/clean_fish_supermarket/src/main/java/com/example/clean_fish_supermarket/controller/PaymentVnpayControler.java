@@ -80,7 +80,7 @@ public class PaymentVnpayControler {
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
 
-        cld.add(Calendar.MINUTE, 15);
+        cld.add(Calendar.MINUTE, 3);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
@@ -135,9 +135,9 @@ public class PaymentVnpayControler {
                     OrderDetail orderDetail = new OrderDetail(list.get(i).getQuantityProduct(), orderProduct1,
                             list.get(i).getProduct());
                     orderDetailService.addOrderDetail(orderDetail);
-                    Product product = productService.getProductById(list.get(i).getProduct().getIdProduct());
-                    productService.updateQuantityProductById(product.getQuantity() - list.get(i).getQuantityProduct(),
-                            list.get(i).getProduct().getIdProduct());
+//                    Product product = productService.getProductById(list.get(i).getProduct().getIdProduct());
+//                    productService.updateQuantityProductById(product.getQuantity() - list.get(i).getQuantityProduct(),
+//                            list.get(i).getProduct().getIdProduct());
                 }
                 cartService.deleteCartByUser(user.getIdUser());
             }
@@ -146,4 +146,34 @@ public class PaymentVnpayControler {
         }
         return new ResponseEntity<>(orderProduct0,HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @GetMapping("/keep-product")
+    public void keepProduct (){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            User user = userService.findUerByEmail(email).get();
+            List<Cart> list = cartService.getListCartByUser(user.getIdUser());
+                for (int i = 0; i < list.size(); i++) {
+                    Product product = productService.getProductById(list.get(i).getProduct().getIdProduct());
+                    productService.updateQuantityProductById(product.getQuantity() - list.get(i).getQuantityProduct(),
+                            list.get(i).getProduct().getIdProduct());
+                }
+            }
+
+    @PreAuthorize("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
+    @GetMapping("/return-product")
+    public void returnProduct (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findUerByEmail(email).get();
+        List<Cart> list = cartService.getListCartByUser(user.getIdUser());
+        for (int i = 0; i < list.size(); i++) {
+            Product product = productService.getProductById(list.get(i).getProduct().getIdProduct());
+            productService.updateQuantityProductById(product.getQuantity() + list.get(i).getQuantityProduct(),
+                    list.get(i).getProduct().getIdProduct());
+        }
+    }
+
+
 }
